@@ -1,6 +1,14 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Henna
+Henna is a full-stack web application designed for booking henna services and purchasing henna products. Built with Django, PostgreSQL, HTML, CSS, JavaScript, and Bootstrap, it offers a seamless and user-friendly experience. The app is hosted on Heroku, with Amazon S3 used for media storage, and integrates Stripe for secure payment processing.
 
-Welcome USER_NAME,
+This project is part of Milestone Project 4 for the Level 5 Diploma in Full Stack Web Application Development, showcasing the integration of modern web technologies to create a scalable and dynamic platform.
+
+
+
+
+
+![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+Welcome Taher Mahmood,
 
 This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
 
