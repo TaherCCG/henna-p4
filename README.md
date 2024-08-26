@@ -1,139 +1,163 @@
 # Henna
-Henna is a full-stack web application designed for booking henna services and purchasing henna products. Built with Django, PostgreSQL, HTML, CSS, JavaScript, and Bootstrap, it offers a seamless and user-friendly experience. The app is hosted on Heroku, with Amazon S3 used for media storage, and integrates Stripe for secure payment processing.
 
-This project is part of Milestone Project 4 for the Level 5 Diploma in Full Stack Web Application Development, showcasing the integration of modern web technologies to create a scalable and dynamic platform.
+## Table of Contents
 
-
-
-
-
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
-Welcome Taher Mahmood,
-
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
-
-You can safely delete this README.md file or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **June 18, 2024**
-
-## Gitpod Reminders
-
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
-
-`python3 -m http.server`
-
-A blue button should appear to click: _Make Public_,
-
-Another blue button should appear to click: _Open Browser_.
-
-To run a backend Python file, type `python3 app.py` if your Python file is named `app.py`, of course.
-
-A blue button should appear to click: _Make Public_,
-
-Another blue button should appear to click: _Open Browser_.
-
-By Default, Gitpod gives you superuser security privileges. Therefore, you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
-
-To log into the Heroku toolbelt CLI:
-
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
-
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you, so do not share it. If you accidentally make it public, you can create a new one with _Regenerate API Key_.
-
-### Connecting your Mongo database
-
-- **Connect to Mongo CLI on a IDE**
-- navigate to your MongoDB Clusters Sandbox
-- click **"Connect"** button
-- select **"Connect with the MongoDB shell"**
-- select **"I have the mongo shell installed"**
-- choose **mongosh (2.0 or later)** for : **"Select your mongo shell version"**
-- choose option: **"Run your connection string in your command line"**
-- in the terminal, paste the copied code `mongo "mongodb+srv://<CLUSTER-NAME>.mongodb.net/<DBname>" --apiVersion 1 --username <USERNAME>`
-  - replace all `<angle-bracket>` keys with your own data
-- enter password _(will not echo **\*\*\*\*** on screen)_
-
-------
-
-## Release History
-
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
-
-**June 18, 2024,** Add Mongo back into template
-
-**June 14, 2024,** Temporarily remove Mongo until the key issue is resolved
-
-**May 28 2024:** Fix Mongo and Links installs
-
-**April 26 2024:** Update node version to 16
-
-**September 20 2023:** Update Python version to 3.9.17.
-
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
-
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
-
-**July 2 2021:** Remove extensions that are not available in Open VSX.
-
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
-
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
-
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
-
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
-
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
-
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
-
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
-
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
-
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
-
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
-
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
-
-------
-
-## FAQ about the uptime script
-
-**Why have you added this script?**
-
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
-
-**How will this affect me?**
-
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
-
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
-
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
-
-**So….?**
-
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
-
-**Can I opt out?**
-
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
-
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
-
-**Anything more?**
-
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
+1. [Introduction](#introduction)
+2. [Objective](#objective)
+3. [Key Features](#key-features)
+    - [Navigation](#navigation)
+    - [Home Page](#home-page)
+    - [Profile Page](#profile-page)
+    - [Admin Panel Feature](#admin-panel-feature)
+    - [Booking Page](#booking-page)
+4. [UX/UI](#uxui)
+    - [User Stories](#user-stories)
+        - [New Visitor](#new-visitor)
+        - [Returning User](#returning-user)
+        - [Frequent User](#frequent-user)
+        - [Admin](#admin)
+    - [Colour Scheme](#colour-scheme)
+        - [Primary Colour](#primary-colour)
+        - [Secondary Colour](#secondary-colour)
+        - [Accent Colour](#accent-colour)
+        - [Supporting Colours](#supporting-colours)
+        - [Background Colour](#background-colour)
+    - [Typography](#typography)
+5. [Wireframes](#wireframes)
 
 ---
 
-Happy coding!
+This TOC links to the respective sections in the document, making it easy to navigate.
+## Introduction
+Welcome to Henna, my Milestone Project 4 for the Level 5 Diploma in Full Stack Web Application Development! This project will demonstrate my full-stack web development skills by creating a seamless and user-friendly platform for booking henna services and purchasing henna products.
+
+## Objective
+The main aim of Henna is to offer a seamless, intuitive, and engaging experience for clients looking to book henna services and buy henna products. The application uses modern web technologies to provide a dynamic solution that meets both personal and commercial needs.
+
+## Key Features
+
+- **User Management:** Allows users to register, log in, and manage their accounts easily.
+
+- **Service Booking:** Enables users to browse, select, and book henna services with real-time availability.
+
+- **Product Purchasing:** Offers a detailed catalogue of henna products, with features to add items to a cart and proceed through a secure checkout process.
+
+- **Secure Payments:** Integrates Stripe for safe and efficient payment handling.
+
+- **Media Storage:** Utilises Amazon S3 for reliable and scalable storage of media files, such as images of henna designs and product photos.
+
+- **Admin Panel:** Provides administrators with tools to manage service listings, product inventories, and user accounts.
+
+### Navigation
+
+### Home Page
+
+### Profile Page
+
+### Admin Panel Feature
+
+### Booking Page
+
+## UX/UI
+### User Stories
+
+**New Visitor**
+- As a first-time visitor, I want to explore the available henna services and products without needing to create an account, so I can decide if I’m interested in what’s on offer.
+
+- As a first-time visitor, I want to see detailed information about each service and product, including prices and customer reviews, so I can make an informed decision.
+
+- As a first-time visitor, I want to sign up easily using my email or social media accounts, so I can quickly access all features of the platform.
+
+- As a first-time visitor, I want to receive a discount code for my first booking or purchase, so I feel encouraged to try the service.
+
+**As a Returning User**
+- As a returning user, I want to log in quickly to my account with saved credentials, so I can continue where I left off.
+
+- As a returning user, I want to see the items I previously added to my cart, so I can easily pick up my shopping where I left off.
+
+- As a returning user, I want to view my past bookings and purchases, so I can reorder products or rebook services I liked.
+
+- As a returning user, I want to be informed about any special offers or discounts available to returning customers, so I feel valued and motivated to complete a purchase.
+
+**As a Frequent User**
+-  As a frequent user, I want to rebook my favourite henna artist service quickly, so I can save time and effort.
+Loyalty Programme:
+
+- As a frequent user, I want to earn loyalty points or rewards with each booking or purchase, so I feel appreciated and encouraged to keep using the app.
+
+- As a frequent user, I want to receive personalised offers and discounts based on my history, so I can enjoy special perks tailored to my preferences.
+Quick Access to History:
+
+- As a frequent user, I want to access my full booking and purchase history easily, so I can track my activity and reorder or rebook with minimal effort.
+
+**As an Admin**
+- As an admin, I want to add, update, or remove services and products from the catalogue, so I can keep the offerings current and relevant.
+
+- As an admin, I want to view and manage user accounts, including resetting passwords and handling account issues, so I can ensure a smooth user experience.
+
+- As an admin, I want to view and manage all orders and bookings, including processing refunds and handling cancellations, so I can maintain efficient operations.
+
+- As an admin, I want to create and manage discount codes and promotions, so I can attract more customers and drive sales.
+
+---
+
+### Colour Scheme
+![henna-coolors](documentation/images/design/henna2.png)
+For the Henna web application, I’ve selected a streamlined colour scheme to ensure both style and readability:
+
+#### **Primary Colour**
+
+- **Deep Burgundy (#6D4C53)**
+  - *Usage:* Main accents, buttons, links.
+  - *Reason:* Offers a rich and elegant appearance, perfect for highlighting key elements.
+
+#### **Secondary Colour**
+
+- **Warm Sand (#D4A78D)**
+  - *Usage:* Backgrounds, cards, and highlights.
+  - *Reason:* Provides a warm, neutral backdrop that complements the primary colour and creates a calming effect.
+
+#### **Accent Colour**
+
+- **Golden Ochre (#F6C857)**
+  - *Usage:* Call-to-action buttons, highlights, and active elements.
+  - *Reason:* Adds a vibrant contrast that draws attention to important actions and features.
+
+#### **Supporting Colours**
+
+- **Soft Olive (#9B8A5B)** and **Charcoal Grey (#4A4A4A)**
+  - *Usage:* Secondary buttons, text, and subtle details.
+  - *Reason:* Enhances contrast and readability without overpowering the primary palette.
+
+#### **Background Colour**
+
+- **Light Beige (#F9F7F1)**
+  - *Usage:* Main background.
+  - *Reason:* Ensures a clean, unobtrusive backdrop that enhances overall readability.
+
+---
+
+### Typography
+
+I’ve selected five different fonts for the Henna web application to achieve a visually appealing and functional design that enhances the user experience. Each font has a specific role: 
+
+- **[Playfair Display](https://fonts.google.com/specimen/Playfair+Display)** adds elegance to headings.
+![playfair-display](documentation/images/design/playfair-display.png)
+
+- **[Lora](https://fonts.google.com/specimen/Lora)** provides readability for body text.
+![lora](documentation/images/design/lora.png)
+
+- **[Raleway](https://fonts.google.com/specimen/Raleway)** offers a modern touch for subheadings and UI elements.
+![railway](documentation/images/design/raleway.png)
+
+- **[Open Sans](https://fonts.google.com/specimen/Open+Sans)** ensures clarity and accessibility for general content.
+![open-sans](documentation/images/design/open-sans.png)
+
+- **[Pacifico](https://fonts.google.com/specimen/Pacifico)** adds a unique character to decorative elements.
+![pacifico](documentation/images/design/pacifico.png)
+
+---
+
+### Wireframes
+
+
