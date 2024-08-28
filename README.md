@@ -160,4 +160,23 @@ I’ve selected five different fonts for the Henna web application to achieve a 
 
 ### Wireframes
 
+#### Home Page
+![home-page-wireframe](documentation/images/wireframe/home-page-wf.png)
 
+####  Products Page 
+![product-page-wireframe](documentation/images/wireframe/prod-page-wf.png)
+
+-  **Product Details Page**
+![product-details-page-wireframe](documentation/images/wireframe/prod-details-page-wf.png)
+
+
+#### Dashboards
+
+-  **User Dashboard**
+![user-dashboard-page-wireframe](documentation/images/wireframe/user-dash-wf.png)
+
+-  **Admin Dashboard**
+![admin-dashboard-page-wireframe](documentation/images/wireframe/admin-dash-wf.png)
+
+
+## Database
