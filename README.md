@@ -179,4 +179,12 @@ I’ve selected five different fonts for the Henna web application to achieve a 
 ![admin-dashboard-page-wireframe](documentation/images/wireframe/admin-dash-wf.png)
 
 
+## UML Use Case Diagram
+
+I have created the UML Use Case Diagram to depict how different types of users and administrators interact with the system. The diagram features actors such as New Visitor, Registered User (including Returning User and Frequent User), and Admin. It outlines essential functionalities like browsing products, managing services and orders, processing payments, and handling user accounts. I have used `<<include>>` to show mandatory interactions and `<<extend>>` for optional ones, providing a clear overview of how these components are connected.
+
+Below is the diagram image for a visual representation:
+
+![henna-uml-use-case](documentation/images/uml/henna.png)
+
 ## Database
