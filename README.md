@@ -136,6 +136,20 @@ For the Henna web application, I’ve selected a streamlined colour scheme to en
   - *Reason:* Ensures a clean, unobtrusive backdrop that enhances overall readability.
 
 ---
+### Branding
+
+![brand-logo](documentation/images/brand/brand-logo.png)
+
+-  **Logo**
+![logo1](documentation/images/brand/logo-color.png)
+![logo2](documentation/images/brand/logo-black.png)
+![logo3](documentation/images/brand/logo-white.png)
+![logo4](documentation/images/brand/logo-no-background.png)
+
+-  **Favicon**
+
+![favicon1](documentation/images/brand/henna-store-favicon-black.png)
+![favicon2](documentation/images/brand/henna-store-favicon-color.png)
 
 ### Typography
 
@@ -147,8 +161,8 @@ I’ve selected five different fonts for the Henna web application to achieve a 
 - **[Lora](https://fonts.google.com/specimen/Lora)** provides readability for body text.
 ![lora](documentation/images/design/lora.png)
 
-- **[Raleway](https://fonts.google.com/specimen/Raleway)** offers a modern touch for subheadings and UI elements.
-![railway](documentation/images/design/raleway.png)
+- **[Castoro Titling](https://fonts.google.com/specimen/Castoro+Titling)** offers a modern touch for subheadings and UI elements.
+![castoro](documentation/images/design/castoro.png)
 
 - **[Open Sans](https://fonts.google.com/specimen/Open+Sans)** ensures clarity and accessibility for general content.
 ![open-sans](documentation/images/design/open-sans.png)
