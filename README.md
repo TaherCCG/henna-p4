@@ -211,6 +211,8 @@ For development, I utilised the SQLite3 database, as it is the default option fo
 
 The Entity-Relationship Diagram (ERD) for this project provides a clear representation of the database structure. It shows how key entities such as users, roles, profiles, services, products, orders, bookings, and reviews are related to each other. The diagram helps define how data will be organised and managed within the application, ensuring smooth operation and scalability.
 
+![henna-erd](documentation/images/uml/henna-erd.png)
+
 The ERD includes the following relationships:
 
 - **User - Role (Many-to-One):** Multiple users can have the same role, which defines their permissions and access levels, such as regular user, owner, or admin.
@@ -238,8 +240,6 @@ The ERD includes the following relationships:
 - **Review - Product (Many-to-One, Nullable):** Several reviews can refer to a single product, although this connection is optional, especially when reviews apply to services instead of products.
 
 This ERD ensures that the database is well-structured to handle user management, service bookings, order processing, and reviews, while also supporting features like loyalty programmes and role-based access. The design is intended to maintain efficiency and scalability as the application grows.
-
-![henna-erd](documentation/images/uml/henna-erd.png)
 
 ---
 
