@@ -26,31 +26,29 @@
     {% block corejs %}
         <script src="https://kit.fontawesome.com/0199d382d0.js" crossorigin="anonymous"></script>   
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     {% endblock %}
 
     {% block extra_js %}
     {% endblock %}
 
     <title>Henna Store {% block extra_title %}{% endblock %}</title>
-</head>
+  </head>
   <body>
     <header class="container-fluid fixed-top bg-white">
         <div id="topnav" class="row align-items-center">
             <!-- Logo Section -->
             <div class="col-12 col-lg-4 py-1 py-lg-0 text-center text-lg-start">
                 <a href="{% url 'home' %}" class="nav-link main-logo-link">
-                    <h2 class="logo-font text-black my-0"><strong>Henna</strong><img src="/media/logo-no-background.png" alt="Logo" class="logo-img">Store</h2>
+                    <h2 class="logo-font text-black my-0"><strong>Henna</strong><img src="{% static 'images/logo-no-background.png' %}" alt="Logo" class="logo-img">Store</h2>
                 </a>
             </div>
     
             <!-- Search Bar Section -->
             <div class="col-12 col-lg-4 py-1 py-lg-0">
                 <form method="GET" action="">
-                    <div class="input-group w-100">
-                        <input class="form-control border border-black rounded-0" type="text" name="q" placeholder="Search our site">
-                        <button class="btn btn-black border border-black rounded-0" type="submit">
+                    <div class="input-group">
+                        <input class="form-control border border-dark rounded-0" type="text" name="q" placeholder="Search Henna designs and Products">
+                        <button class="btn btn-dark border border-dark rounded-0" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -59,19 +57,21 @@
     
             <!-- User and Cart Section -->
             <div class="col-12 col-lg-4 py-1 py-lg-0">
-                <ul class="list-inline list-unstyled text-center text-lg-end my-0 d-flex justify-content-center justify-content-lg-end">
+                <ul class="list-inline text-center text-lg-end mb-0 d-flex justify-content-center justify-content-lg-end">
                     <!-- My Account Dropdown -->
                     <li class="list-inline-item dropdown me-3">
                         <a class="text-black nav-link dropdown-toggle" href="#" id="user-options" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="text-center">
-                                <i class="fas fa-user fa-lg"></i>
-                                <p class="my-0">My Account</p>
+                                <span class="icon">
+                                    <i class="fas fa-user fa-lg"></i>
+                                </span>
+                                <p class="mb-0">My Account</p>
                             </div>
                         </a>
                         <ul class="dropdown-menu border-0" aria-labelledby="user-options">
                             {% if request.user.is_authenticated %}
                                 {% if request.user.is_superuser %}
-                                    <li><a href="" class="dropdown-item">Admin Panel</a></li>
+                                    <li><a href="" class="dropdown-item">Store Management</a></li>
                                 {% endif %}
                                 <li><a href="" class="dropdown-item">My Profile</a></li>
                                 <li><a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a></li>
@@ -87,9 +87,9 @@
                         <a class="{% if grand_total %}text-info fw-bold{% else %}text-black{% endif %} nav-link" href="">
                             <div class="text-center">
                                 <i class="fas fa-shopping-bag fa-lg"></i>
-                                <p class="my-0">
+                                <p class="mb-0">
                                     {% if grand_total %}
-                                        ${{ grand_total|floatformat:2 }}
+                                        £{{ grand_total|floatformat:2 }}
                                     {% else %}
                                         £0.00
                                     {% endif %}
@@ -100,10 +100,21 @@
                 </ul>
             </div>
         </div>
+        <div class="row bg-white">
+            <nav class="navbar navbar-expand-lg navbar-light w-100">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                {% include 'includes/mobile-top-header.html' %}
+                {% include 'includes/main-nav.html' %}
+            </nav>
+        </div>
+        <div id="delivery-banner" class="row text-center">
+            <div class="col bg-dark text-white">
+                <h4 class="decorative my-1">Free delivery on orders over £{{ free_delivery_threshold }}!</h4>                
+            </div>            
+        </div>
     </header>
-    
-    
-    
 
     {% if messages %}
         <div class="message-container"></div>
@@ -117,5 +128,5 @@
 
     {% block postloadjs %}
     {% endblock %}
-    </body>
+  </body>
 </html>
