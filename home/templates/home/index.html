@@ -10,19 +10,117 @@
 {% endblock %}
 
 {% block content %}
+    <!-- Hero Section -->
     <div class="container h-100">
-        <div class="row h-100 ">
-            <div class="col-4 offset-md-7 my-auto text-center hero-container">
-                <h1 class="logo-font text-black my-3"><strong>Henna </strong>Store
-                    </h1>
-                    <p class="text-black"><em>Your Perfect Design.</em></p>
-                    <hr class="hr-bar-small">
+        <div class="row h-100">
+            <div class="col-lg-4 offset-lg-8 my-auto text-center hero-container">
+                <h1 class="logo-font my-3">
+                    <strong>Henna </strong>Store
+                </h1>
+                <p class="decorative"><em>Find Your Perfect Design.</em></p>
+                <hr class="hr-bar-small">
                 <div class="my-3">
-                    <h4>
-                       <a href="" class="shop-now-button btn btn-lg rounded-0 py-1 decorative"> ✨ Shop Now ✨ </a>
-                    </h4>
+                    <a href="#" class="btn shop-now-button btn-lg rounded-5 py-1 decorative" aria-label="Shop Now">Shop Now</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <div class="container text-center py-2">
+            <h2 class="cta-heading decorative" aria-label="Sign Up Today and Get 10% Off Your First Order">Get 10% Off Your First Order or Booking!</h2>
+            <p class="text-dark fw-bold">Sign up today and enjoy an exclusive 10% discount on your first purchase or booking. Don't miss out on this special offer!</p>
+            <a href="#" class="btn cta-button btn-lg rounded-5 mt-2" aria-label="Sign Up Now">Sign Up Now</a>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="section-background">
+        <div class="container my-5">
+            <h2 class="text-center logo-font text-black">Featured Products</h2>
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4">
+                    <div class="product-card">
+                        <img src="/media/cone-bundle.jpeg" alt="Product 1" class="product-img" aria-label="Product 1 Image">
+                        <div class="product-info">
+                            <h3 class="product-title">Cone Bundle</h3>
+                            <p class="product-description">A brief description of Product 1.</p>
+                            <a href="#" class="btn product-button btn-sm" aria-label="Buy Product 1">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="product-card">
+                        <img src="/media/product2.jpg" alt="Product 2" class="product-img" aria-label="Product 2 Image">
+                        <div class="product-info">
+                            <h3 class="product-title">Product 2</h3>
+                            <p class="product-description">A brief description of Product 2.</p>
+                            <a href="#" class="btn product-button btn-sm" aria-label="Buy Product 2">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="product-card">
+                        <img src="/media/product3.jpg" alt="Product 3" class="product-img" aria-label="Product 3 Image">
+                        <div class="product-info">
+                            <h3 class="product-title">Product 3</h3>
+                            <p class="product-description">A brief description of Product 3.</p>
+                            <a href="#" class="btn product-button btn-sm" aria-label="Buy Product 3">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section-background">
+        <div class="container my-5">
+            <h2 class="text-center logo-font text-black">Our Services</h2>
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4">
+                    <div class="service-card">
+                        <img src="/media/service1.jpg" alt="Service 1" class="service-img" aria-label="Service 1 Image">
+                        <div class="service-info">
+                            <h3 class="service-title">Service 1</h3>
+                            <p class="service-description">Description of Service 1.</p>
+                            <a href="#" class="btn service-button btn-sm" aria-label="Book Service 1">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card">
+                        <img src="/media/service2.jpg" alt="Service 2" class="service-img" aria-label="Service 2 Image">
+                        <div class="service-info">
+                            <h3 class="service-title">Service 2</h3>
+                            <p class="service-description">Description of Service 2.</p>
+                            <a href="#" class="btn service-button btn-sm" aria-label="Book Service 2">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card">
+                        <img src="/media/service3.jpg" alt="Service 3" class="service-img" aria-label="Service 3 Image">
+                        <div class="service-info">
+                            <h3 class="service-title">Service 3</h3>
+                            <p class="service-description">Description of Service 3.</p>
+                            <a href="#" class="btn service-button btn-sm" aria-label="Book Service 3">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p class="mb-0">© 2024 Henna Store. All rights reserved.</p>
+            <small>
+                <a href="#" class="text-white" aria-label="Privacy Policy">Privacy Policy</a> |
+                <a href="#" class="text-white" aria-label="Terms of Service">Terms of Service</a>
+            </small>
+        </div>
+    </footer>
 {% endblock %}
