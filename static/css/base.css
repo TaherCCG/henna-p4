@@ -282,6 +282,10 @@ button {
     font-family: var(--font-general);
 }
 
+.product-home-link {
+    color: var(--color-support-charcoal);
+}
+
 .product-card a:hover {
     color: var(--color-primary);
 }
@@ -312,6 +316,58 @@ button {
     font-size: 1.75rem;
 }
 
+/* product category styling */
+.product-category {
+    font-family: var(--font-body);
+    color: var(--color-support-charcoal);
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+}
+
+.product-category a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.product-category a:hover {
+    color: var(--color-accent);
+    transform: translateX(3px);
+}
+
+.product-category i {
+    color: var(--color-accent);
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.category-badge {
+    display: inline-block;
+    margin: 0.5rem;
+    text-decoration: none;
+    
+}
+
+.category-badge span {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    font-family: var(--font-general);
+    border: 1px solid var(--color-support-charcoal);
+    border-radius: 20px;
+    padding: 0.3rem 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.category-badge span:hover {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
 .service-card {
     background-color: white;
     border-radius: 8px;

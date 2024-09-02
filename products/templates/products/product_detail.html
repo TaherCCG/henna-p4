@@ -37,6 +37,13 @@
                         <div class="col-md-6 d-flex flex-column justify-content-center p-4">
                             <h2 class="product-title mb-3">{{ product.name }}</h2>
                             <p class="price lead mb-3">£{{ product.price }}</p>
+                            {% if product.category %}
+                                <p class="small mt-1 mb-0">
+                                    <a class="text-muted text-decoration-none" href="{% url 'products' %}?category={{ product.category.name }}">
+                                        <i class="fas fa-tag me-1"></i>{{ product.category.friendly_name }}
+                                    </a>
+                                </p>
+                            {% endif %}
                             {% if product.rating %}
                                 <div class="rating mb-3">
                                     <small class="text-muted">
