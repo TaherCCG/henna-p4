@@ -412,6 +412,34 @@ button {
     color: var(--color-background);
 }
 
+.btt-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-secondary);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+
+.btt-link {
+    color: var(--color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    text-decoration: none;
+}
+
+.btt-link i {
+    font-size: 1.2rem;
+}
+
+.btt-button:hover {
+    background-color: var(--color-support-olive);
+    border-color: var(--color-accent);
+}
 /* Media Queries */
 
 /* Large Devices (Desktops) */
