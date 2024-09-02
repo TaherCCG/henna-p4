@@ -3,13 +3,13 @@
         <!-- All Products and Services Dropdown -->
         <li class="nav-item dropdown">
             <a class="logo-font fw-bold nav-link text-dark me-5" href="#" id="all-products-link" data-bs-toggle="dropdown" aria-expanded="false">
-                All Products &amp; Designs
+                All Henna Products
             </a>
             <ul class="dropdown-menu border-0" aria-labelledby="all-products-link">
-                <li><a href="#" class="dropdown-item">By Price</a></li>
-                <li><a href="#" class="dropdown-item">By Rating</a></li>
-                <li><a href="#" class="dropdown-item">By Category</a></li>
-                <li><a href="{% url 'products' %}" class="dropdown-item">All Products</a></li>
+                <a href="{% url 'products' %}?sort=price&direction=asc" class="dropdown-item">By Price</a>
+                <a href="{% url 'products' %}?sort=rating&direction=desc" class="dropdown-item ">By Rating</a>
+                <a href="{% url 'products' %}?sort=category&direction=asc" class="dropdown-item ">By Category</a>
+                <a href="{% url 'products' %}" class="dropdown-item">All Products</a>
             </ul>
         </li>
 
@@ -19,10 +19,10 @@
                 Henna
             </a>
             <ul class="dropdown-menu border-0" aria-labelledby="henna-link">
-                <li><a href="#" class="dropdown-item">Cones</a></li>
-                <li><a href="#" class="dropdown-item">Designs</a></li>
-                <li><a href="#" class="dropdown-item">Tattoos</a></li>
-                <li><a href="#" class="dropdown-item">All Henna Products</a></li>
+                <li><a href="{% url 'products' %}?category=henna_cones_tubes" class="dropdown-item">Cones</a></li>
+                <li><a href="{% url 'products' %}?category=henna_designs_stencils" class="dropdown-item">Designs &amp; Stencils </a></li>
+                <li><a href="{% url 'products' %}?category=henna_kits" class="dropdown-item">Henna Kits</a></li>
+                <li><a href="{% url 'products' %}?category=henna_cones_tubes,henna_designs_stencils,henna_kits" class="dropdown-item">All Henna Products</a></li>
             </ul>
         </li>
 
