@@ -1,21 +1,27 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.contrib import messages
+from django.db.models import Q
 from .models import HennaProduct
 
 def all_products(request):
     """A view to show all products, including sorting and search queries."""
 
-    # Get query parameters for sorting and searching
-    sort_by = request.GET.get('sort', 'name')
-    search_query = request.GET.get('search', '')
+    products = HennaProduct.objects.all()
+    query = None
 
-    # Filter and sort products
-    products = HennaProduct.objects.filter(name__icontains=search_query).order_by(sort_by)
+    if request.GET:
+        if 'q' in request.GET:
+            query = request.GET['q']
+            if not query:
+                messages.error(request, "You didn't enter any search criteria!")
+                return redirect(reverse('products'))
+            
+            queries = Q(name__icontains=query) | Q(description__icontains=query)
+            products = products.filter(queries)
 
-    # Context dictionary with sorting and search query
     context = {
         'products': products,
-        'search_query': search_query,
-        'sort_by': sort_by,
+        'search_term': query,
     }
 
     return render(request, 'products/products.html', context)
@@ -25,7 +31,6 @@ def product_detail(request, product_id):
 
     product = get_object_or_404(HennaProduct, pk=product_id)
 
-    # Context dictionary for the product detail
     context = {
         'product': product,
     }
