@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container-fluid header-container">
+        <div class="row">
+            <div class="col text-center">
+                <h1 class="page-header-title">Product Details</h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <!-- Product Details Card -->
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="card product-detail-card border-0 rounded-lg shadow-lg">
+                    <div class="row g-0">
+                        <!-- Product Image Section -->
+                        <div class="col-md-6">
+                            <div class="product-image-container p-4">
+                                {% if product.image %}
+                                    <a href="{{ product.image.url }}" target="_blank">
+                                        <img class="img-fluid product-detail-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    </a>
+                                {% else %}
+                                    <a href="#">
+                                        <img class="img-fluid product-detail-img" src="{% static 'noimage.png' %}" alt="{{ product.name }}">
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Product Details Section -->
+                        <div class="col-md-6 d-flex flex-column justify-content-center p-4">
+                            <h2 class="product-title mb-3">{{ product.name }}</h2>
+                            <p class="price lead mb-3">£{{ product.price }}</p>
+                            {% if product.rating %}
+                                <div class="rating mb-3">
+                                    <small class="text-muted">
+                                        <i class="fas fa-star text-warning"></i> {{ product.rating }} / 5
+                                    </small>
+                                </div>
+                            {% else %}
+                                <div class="rating mb-3">
+                                    <small class="text-muted">No Rating</small>
+                                </div>
+                            {% endif %}
+                            <p class="description mt-3">{{ product.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
