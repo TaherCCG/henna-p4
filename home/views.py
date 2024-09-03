@@ -1,8 +1,11 @@
 from django.shortcuts import render
-
-# Create your views here.
+from products.models import HennaProduct
 
 def index(request):
-    """ A view to return the index page """
+    """Get the top 3 most-rated products"""
+    top_rated_products = HennaProduct.objects.filter(rating__isnull=False).order_by('-rating')[:6]
     
-    return render(request, 'home/index.html')
+    context = {
+        'products': top_rated_products,
+    }
+    return render(request, 'home/index.html', context)

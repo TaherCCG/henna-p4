@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Henna Store Landing Page{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -39,88 +41,68 @@
     <section class="section-background">
         <div class="container my-5">
             <h2 class="text-center logo-font text-black">Featured Products</h2>
-            <div class="row mt-4">
-                <div class="col-md-4 mb-4">
-                    <div class="product-card">
-                        <img src="/media/cone-bundle.jpeg" alt="Product 1" class="product-img" aria-label="Product 1 Image">
-                        <div class="product-info">
-                            <h3 class="product-title">Cone Bundle</h3>
-                            <p class="product-description">A brief description of Product 1.</p>
-                            <a href="#" class="btn product-button btn-sm" aria-label="Buy Product 1">Buy Now</a>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mt-1 mb-2">
+                {% for product in products %}
+                    <div class="col">
+                        <div class="card h-100 product-card border-0 shadow-sm">
+                            {% if product.image %}
+                                <a href="{% url 'product_detail' product.id %}">
+                                    <img class="card-img-top img-fluid product-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                </a>
+                            {% elif product.image_url %}
+                                <a href="{% url 'product_detail' product.id %}">
+                                    <img class="card-img-top img-fluid product-img" src="{{ product.image_url }}" alt="{{ product.name }}">
+                                </a>
+                            {% else %}
+                                <a href="{% url 'product_detail' product.id %}">
+                                    <img class="card-img-top img-fluid product-img" src="{% static 'noimage.png' %}" alt="{{ product.name }}">
+                                </a>
+                            {% endif %}
+                            <div class="card-body product-info pb-0">
+                                <h5 class="product-title mb-2">{{ product.name }}</h5>
+                                <p class="text-muted">{{ product.description|truncatewords:10 }}</p>
+                            </div>
+                            <div class="card-footer bg-white pt-0 border-0 text-start">
+                                <p class="lead mb-0 fw-bold">£{{ product.price }}</p>
+                                {% if product.category %}
+                                    <p class="small mt-1 mb-0">
+                                        <a class="text-muted text-decoration-none" href="{% url 'products' %}?category={{ product.category.name }}">
+                                            <i class="fas fa-tag me-1"></i>{{ product.category.get_friendly_name }}
+                                        </a>
+                                    </p>
+                                {% endif %}
+                                {% if product.rating %}
+                                    <small class="text-muted">
+                                        <i class="fas fa-star"></i> {{ product.rating }} / 5
+                                    </small>
+                                {% else %}
+                                    <small class="text-muted">No Rating</small>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+   <!-- Services Section -->
+   <section class="booking-services-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h2 class="display-4 fw-bold mb-4">Discover Our Exclusive Booking Services</h2>
+                    <p class="lead mb-4">Experience top-notch services with our exclusive booking options. Our Henna artists are dedicated to providing you with the best service tailored to your needs.</p>
+                    <a href="#" class="btn btn-primary btn-lg rounded-pill" aria-label="Book Now">Book Now</a>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="product-card">
-                        <img src="/media/product2.jpg" alt="Product 2" class="product-img" aria-label="Product 2 Image">
-                        <div class="product-info">
-                            <h3 class="product-title">Product 2</h3>
-                            <p class="product-description">A brief description of Product 2.</p>
-                            <a href="#" class="btn product-button btn-sm" aria-label="Buy Product 2">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="product-card">
-                        <img src="/media/product3.jpg" alt="Product 3" class="product-img" aria-label="Product 3 Image">
-                        <div class="product-info">
-                            <h3 class="product-title">Product 3</h3>
-                            <p class="product-description">A brief description of Product 3.</p>
-                            <a href="#" class="btn product-button btn-sm" aria-label="Buy Product 3">Buy Now</a>
-                        </div>
+                <div class="col-lg-6 text-center">
+                    <div class="image-wrapper position-relative">
+                        <img src="/media/artist-making-mehndi-womans-palms.jpg" class="img-fluid rounded shadow" alt="Booking Service Introduction">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section class="section-background">
-        <div class="container my-5">
-            <h2 class="text-center logo-font text-black">Our Services</h2>
-            <div class="row mt-4">
-                <div class="col-md-4 mb-4">
-                    <div class="service-card">
-                        <img src="/media/service1.jpg" alt="Service 1" class="service-img" aria-label="Service 1 Image">
-                        <div class="service-info">
-                            <h3 class="service-title">Service 1</h3>
-                            <p class="service-description">Description of Service 1.</p>
-                            <a href="#" class="btn service-button btn-sm" aria-label="Book Service 1">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="service-card">
-                        <img src="/media/service2.jpg" alt="Service 2" class="service-img" aria-label="Service 2 Image">
-                        <div class="service-info">
-                            <h3 class="service-title">Service 2</h3>
-                            <p class="service-description">Description of Service 2.</p>
-                            <a href="#" class="btn service-button btn-sm" aria-label="Book Service 2">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="service-card">
-                        <img src="/media/service3.jpg" alt="Service 3" class="service-img" aria-label="Service 3 Image">
-                        <div class="service-info">
-                            <h3 class="service-title">Service 3</h3>
-                            <p class="service-description">Description of Service 3.</p>
-                            <a href="#" class="btn service-button btn-sm" aria-label="Book Service 3">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4">
-        <div class="container text-center">
-            <p class="mb-0">© 2024 Henna Store. All rights reserved.</p>
-            <small>
-                <a href="#" class="text-white" aria-label="Privacy Policy">Privacy Policy</a> |
-                <a href="#" class="text-white" aria-label="Terms of Service">Terms of Service</a>
-            </small>
-        </div>
-    </footer>
 {% endblock %}
