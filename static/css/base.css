@@ -63,11 +63,13 @@ a,
     color: var(--color-accent);
 }
 
+/* Buttons */
 button {
     background-color: var(--color-primary);
     color: var(--color-background);
 }
 
+/* Secondary Buttons */
 .secondary-button,
 .btn-black {
     background-color: var(--color-support-olive);
@@ -94,7 +96,7 @@ button {
     width: 1.5rem;
 }
 
-/* Dropdown */
+/* Dropdown - Uncomment if you have dropdowns */
 .dropdown-toggle::after {
     display: none !important;
 }
@@ -186,6 +188,7 @@ button {
     margin: 20px 0;
 }
 
+/* Button Styles */
 .shop-now-button,
 .btn-black {
     background: var(--color-primary);
@@ -210,6 +213,7 @@ button {
     margin: auto;
 }
 
+/* Overlay Background */
 .overlay {
     height: 100%;
     width: 100%;
@@ -291,7 +295,6 @@ button {
 }
 
 /* Product Detail Page Styling */
-
 .product-detail-img {
     border-radius: 0.75rem;
     background-color: var(--color-background);
@@ -299,15 +302,15 @@ button {
     object-fit: cover;
 }
 
-.product-detail-card {
+/* .product-detail-card {
     background-color: var(--color-background);
     border-radius: 1rem;
     overflow: hidden;
-}
+} */
 
 .product-image-container {
     background-color: var(--color-background);
-    /* border-bottom: 1px solid var(--color-secondary); */
+    border-bottom: 1px solid var(--color-secondary);
 }
 
 .product-title {
@@ -316,7 +319,7 @@ button {
     font-size: 1.75rem;
 }
 
-/* product category styling */
+/* Product category styling */
 .product-category {
     font-family: var(--font-body);
     color: var(--color-support-charcoal);
@@ -345,11 +348,11 @@ button {
     font-size: 1.2rem;
 }
 
+/* Category Badge Styling */
 .category-badge {
     display: inline-block;
     margin: 0.5rem;
     text-decoration: none;
-    
 }
 
 .category-badge span {
@@ -368,60 +371,40 @@ button {
     color: var(--color-background);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-.service-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    text-align: center;
+
+/* Booking Service Section */
+.booking-services-section {
+    background-color: var(--color-secondary);
+    min-height: 50vh;
 }
 
-.service-img {
-    width: 100%;
-    height: auto;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-.service-info {
-    padding: 20px;
-}
-
-.service-title {
+.booking-services-section h2 {
+    color: var(--color-primary);
     font-family: var(--font-heading);
-    font-size: 1.5rem;
-    margin-bottom: 10px;
 }
 
-.service-description {
-    font-family: var(--font-body);
+.booking-services-section p {
     color: var(--color-support-charcoal);
-    margin-bottom: 20px;
+    font-family: var(--font-body);
 }
 
-.service-button {
+.booking-services-section .btn-primary {
     background-color: var(--color-primary);
-    color: var(--color-background);
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-transform: uppercase;
+    border-color: var(--color-accent);
+    font-family: var(--font-general);
 }
 
-.service-button:hover {
-    background-color: var(--color-support-charcoal);
-    color: var(--color-background);
+.booking-services-section .image-wrapper {
+    max-width: 80%;
+    margin: auto;
 }
 
-.btt-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: var(--color-primary);
-    border: 1px solid var(--color-secondary);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
+.booking-services-section img {
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Back to Top Button */
 .btt-link {
     color: var(--color-background);
     display: flex;
@@ -439,6 +422,21 @@ button {
 .btt-button:hover {
     background-color: var(--color-support-olive);
     border-color: var(--color-accent);
+}
+
+/* Footer Styling */
+.footer {
+    background-color: var(--color-secondary);
+    color: var(--color-background);
+}
+
+.footer a {
+    color: var(--color-background);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: var(--color-accent);
 }
 /* Media Queries */
 
