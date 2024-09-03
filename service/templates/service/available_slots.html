@@ -1,3 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="overlay"></div>
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 <h1>Available Slots for {{ service.name }}</h1>
 <ul>
@@ -5,3 +18,4 @@
         <li>{{ slot.date }} at {{ slot.time }} - <a href="#">Book Now</a></li>
     {% endfor %}
 </ul>
+{% endblock %}
