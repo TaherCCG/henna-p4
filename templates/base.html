@@ -2,7 +2,7 @@
 
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     {% block meta %}
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta charset="utf-8">
@@ -33,8 +33,8 @@
     {% endblock %}
 
     <title>Henna Store {% block extra_title %}{% endblock %}</title>
-  </head>
-  <body>
+</head>
+<body>
     <header class="container-fluid fixed-top bg-white">
         <div id="topnav" class="row bg-white pt-lg-2 d-none d-lg-flex">
             <!-- Logo Section -->
@@ -43,7 +43,7 @@
                     <h2 class="logo-font text-black my-0"><strong>Henna</strong><img src="{% static 'images/logo-no-background.png' %}" alt="Logo" class="logo-img">Store</h2>
                 </a>
             </div>
-    
+        
             <!-- Search Bar Section -->
             <div class="col-12 col-lg-4 py-1 py-lg-0">
                 <form method="GET" action="{% url 'products' %}">
@@ -55,7 +55,7 @@
                     </div>
                 </form>
             </div>
-    
+        
             <!-- User and Cart Section -->
             <div class="col-12 col-lg-4 py-1 py-lg-0">
                 <ul class="list-inline text-center text-lg-end mb-0 d-flex justify-content-center justify-content-lg-end">
@@ -82,7 +82,7 @@
                             {% endif %}
                         </ul>
                     </li>
-    
+                
                     <!-- Shopping Bag Icon -->
                     <li class="list-inline-item">
                         <a class="{% if grand_total %}text-info fw-bold{% else %}text-black{% endif %} nav-link" href="">
@@ -129,5 +129,27 @@
 
     {% block postloadjs %}
     {% endblock %}
-  </body>
+
+    <!-- Footer -->
+    <footer class="footer bg-secondary text-light py-4">
+        <div class="container text-center">
+            <p class="mb-2">© 2024 Henna Store. All rights reserved.</p>
+            <div class="mb-3">
+                <a href="https://github.com/TaherCCG" class="text-light me-3" aria-label="GitHub" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="www.linkedin.com/in/taher-m" class="text-light me-3" aria-label="LinkedIn" target="_blank">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <a href="/contact" class="text-light" aria-label="Contact Us">
+                    <i class="fas fa-envelope"></i> Contact Us
+                </a>
+            </div>
+            <small>
+                <a href="/privacy" class="text-light" aria-label="Privacy Policy">Privacy Policy</a> |
+                <a href="/terms" class="text-light" aria-label="Terms of Service">Terms of Service</a>
+            </small>
+        </div>
+    </footer>
+</body>
 </html>
