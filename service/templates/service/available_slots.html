@@ -1,0 +1,7 @@
+
+<h1>Available Slots for {{ service.name }}</h1>
+<ul>
+    {% for slot in slots %}
+        <li>{{ slot.date }} at {{ slot.time }} - <a href="#">Book Now</a></li>
+    {% endfor %}
+</ul>

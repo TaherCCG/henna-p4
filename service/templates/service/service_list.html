@@ -1,0 +1,8 @@
+<h1>Services</h1>
+<ul>
+    {% for service in services %}
+        <li>
+            <a href="{% url 'service:available_slots' service.id %}">{{ service.name }}</a> - {{ service.price }} - {{ service.duration }}
+        </li>
+    {% endfor %}
+</ul>

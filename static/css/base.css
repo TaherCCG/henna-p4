@@ -96,7 +96,7 @@ button {
     width: 1.5rem;
 }
 
-/* Dropdown - Uncomment if you have dropdowns */
+/* Dropdown */
 .dropdown-toggle::after {
     display: none !important;
 }
