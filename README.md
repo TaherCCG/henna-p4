@@ -24,6 +24,10 @@
         - [Background Colour](#background-colour)
     - [Typography](#typography)
 5. [Wireframes](#wireframes)
+    - [Home Page](#home-page1)
+6. [UML Use Case Diagram](#uml-use-case-diagram)
+7. [Database](#database)
+    - [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
 
 ---
 
@@ -199,7 +203,7 @@ I have created the UML Use Case Diagram to depict how different types of users a
 
 Below is the diagram image for a visual representation:
 
-![henna-uml-use-case](documentation/images/uml/henna.png)
+![henna-uml-use-case](documentation/images/uml/henna-uml.jpeg)
 
 ## Database
 
@@ -211,35 +215,29 @@ For development, I utilised the SQLite3 database, as it is the default option fo
 
 The Entity-Relationship Diagram (ERD) for this project provides a clear representation of the database structure. It shows how key entities such as users, roles, profiles, services, products, orders, bookings, and reviews are related to each other. The diagram helps define how data will be organised and managed within the application, ensuring smooth operation and scalability.
 
-![henna-erd](documentation/images/uml/henna-erd.png)
+![henna-erd](documentation/images/uml/henna-erd.jpeg)
 
 The ERD includes the following relationships:
 
-- **User - Role (Many-to-One):** Multiple users can have the same role, which defines their permissions and access levels, such as regular user, owner, or admin.
 
-- **User - Profile (One-to-One):** Each user can have one profile that stores personal details. However, having a profile is optional for some roles, like admins.
-
-- **User - Address (One-to-Many):** A user can have several addresses, which could be used for billing, shipping, or service locations.
-
-- **User - Booking (One-to-Many):** A user can make multiple bookings, allowing them to book various services over time.
+- **User - Profile (One-to-One):** Each user can have one profile that stores personal details.
 
 - **User - Order (One-to-Many):** A user can place multiple orders, with each order potentially containing several items.
-
-- **User - LoyaltyPoint (One-to-One):** Each user has a single set of loyalty points, which they earn through bookings or purchases.
 
 - **Order - OrderItem (One-to-Many):** An order can contain several items, representing individual products included in that order.
 
 - **OrderItem - Product (Many-to-One):** Many order items can be linked to a single product, associating products with specific orders.
 
-- **Booking - Service (Many-to-One):** Multiple bookings can refer to the same service, allowing users to book a particular service multiple times.
-
 - **Review - User (Many-to-One):** A user can write several reviews, offering feedback on different services or products.
 
-- **Review - Service (Many-to-One):** Many reviews can refer to a single service, allowing users to share their experiences with the same service.
+- **Review - Product (Many-to-One):** Several reviews can refer to a single product.
 
-- **Review - Product (Many-to-One, Nullable):** Several reviews can refer to a single product, although this connection is optional, especially when reviews apply to services instead of products.
+- **Products - Promotions (Many to Many):** Many products can have many promotions.
 
-This ERD ensures that the database is well-structured to handle user management, service bookings, order processing, and reviews, while also supporting features like loyalty programmes and role-based access. The design is intended to maintain efficiency and scalability as the application grows.
+- **Order - Shipping:** A user can choose Delivery Type.
+
+
+This ERD ensures that the database is well-structured to handle user management, order processing, and reviews, while also supporting Product promotions and delivery methods. The design is intended to maintain efficiency and scalability as the application grows.
 
 ---
 
