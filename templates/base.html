@@ -10,6 +10,9 @@
     {% endblock %}
 
     {% block extra_meta %}
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
     {% endblock %}
     
     {% block corecss %}
@@ -87,7 +90,7 @@
                 
                     <!-- Shopping Bag Icon -->
                     <li class="list-inline-item">
-                        <a class="{% if grand_total %}text-info fw-bold{% else %}text-black{% endif %} nav-link" href="">
+                        <a class="{% if grand_total %}text-info fw-bold{% else %}text-black{% endif %} nav-link" href="{% url 'view_cart' %}">
                             <div class="text-center">
                                 <i class="fas fa-shopping-bag fa-lg"></i>
                                 <p class="mb-0">
