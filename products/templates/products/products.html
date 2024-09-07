@@ -66,7 +66,7 @@
                             <div class="card h-100 product-card border-0 shadow-sm">
                                 {% if product.image %}
                                     <a href="{% url 'product_detail' product.id %}">
-                                        <img class="card-img-top img-fluid product-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <img class="card-img-top img-fluid product-img" src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
                                     </a>
                                 {% else %}
                                     <a href="{% url 'product_detail' product.id %}">
@@ -79,7 +79,14 @@
                                 <div class="card-footer bg-white pt-0 border-0 text-left">
                                     <div class="row">
                                         <div class="col">
-                                            <p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
+                                            <div class="price-wrapper d-flex align-items-center">
+                                                {% if product.get_current_discount %}
+                                                    <p class="discounted-price lead mb-0 font-weight-bold">£{{ product.get_discounted_price|floatformat:2 }}</p>
+                                                    <p class="original-price text-muted mb-0 ms-2"><s>£{{ product.price|floatformat:2 }}</s></p>
+                                                {% else %}
+                                                    <p class="lead mb-0 text-left font-weight-bold">£{{ product.price|floatformat:2 }}</p>
+                                                {% endif %}
+                                            </div>
                                             {% if product.category %}
                                                 <p class="small mt-1 mb-0">
                                                     <a class="text-muted text-decoration-none" href="{% url 'products' %}?category={{ product.category.name }}">
@@ -118,7 +125,7 @@
             
             // Scroll to top when .btt-link is clicked
             $(document).on('click', '.btt-link', function(e) {
-                e.preventDefault();  // Prevent default action (if any)
+                e.preventDefault(); 
                 console.log('btt-link clicked');
                 window.scrollTo(0, 0);
             });
@@ -128,22 +135,24 @@
                 var selector = $(this);
                 var currentUrl = new URL(window.location);
                 var selectedVal = selector.val();
-    
-                console.log("Selected Value:", selectedVal);
-    
+
+                // Update the selected option visually
+                selector.find('option').each(function() {
+                    if (this.value === selectedVal) {
+                        $(this).prop('selected', true);
+                    } else {
+                        $(this).prop('selected', false);
+                    }
+                });
+            
                 if (selectedVal !== "reset") {
                     var [sort, direction] = selectedVal.split("_");
-    
                     currentUrl.searchParams.set("sort", sort);
                     currentUrl.searchParams.set("direction", direction);
-    
-                    console.log("Updated URL:", currentUrl.href);
                     window.location.replace(currentUrl);
                 } else {
                     currentUrl.searchParams.delete("sort");
                     currentUrl.searchParams.delete("direction");
-    
-                    console.log("Cleared URL params:", currentUrl.href);
                     window.location.replace(currentUrl);
                 }
             });

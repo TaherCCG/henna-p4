@@ -38,7 +38,17 @@
                         <!-- Product Details Section -->
                         <div class="col-md-6 d-flex flex-column justify-content-center p-4">
                             <h2 class="product-title mb-3">{{ product.name }}</h2>
-                            <p class="price lead mb-3">£{{ product.price }}</p>
+
+                            {% if discounted_price < product.price %}
+                                <p class="price lead mb-3">
+                                    <span class="discounted-price">£{{ discounted_price|floatformat:2 }}</span>
+                                    <span class="original-price text-muted"><s>£{{ product.price|floatformat:2 }}</s></span>
+                                </p>
+                                <p class="discount-name text-danger">{{ discount_name }}</p>
+                            {% else %}
+                                <p class="price lead mb-3">£{{ product.price|floatformat:2 }}</p>
+                            {% endif %}
+
                             {% if product.category %}
                                 <p class="small mt-1 mb-0">
                                     <a class="text-muted text-decoration-none" href="{% url 'products' %}?category={{ product.category.name }}">

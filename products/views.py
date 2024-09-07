@@ -54,13 +54,23 @@ def all_products(request):
 
     return render(request, 'products/products.html', context)
 
+
 def product_detail(request, product_id):
-    """A view to show individual product details."""
+    """A view to show individual product details, including discounted price and discount name."""
 
     product = get_object_or_404(HennaProduct, pk=product_id)
+    discounted_price = product.get_discounted_price()
+
+    # Get the currently active discount
+    discount_name = None
+    current_discount = product.get_current_discount()
+    if current_discount:
+        discount_name = current_discount.name
 
     context = {
         'product': product,
+        'discounted_price': discounted_price,
+        'discount_name': discount_name,
     }
 
     return render(request, 'products/product_detail.html', context)
