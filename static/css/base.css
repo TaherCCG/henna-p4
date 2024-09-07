@@ -378,94 +378,106 @@ button {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Booking Service Section */
-.booking-services-section {
-    min-height: 50vh;
-}
-
-.service-container {
-    background-color: var(--color-secondary)!important;
-}
-
-.booking-services-section h2 {
-    color: var(--color-primary);
-    font-family: var(--font-heading);
-}
-
-.booking-services-section p {
-    color: var(--color-support-charcoal);
+/* Shopping Cart  */
+.cart-container {
+    background-color: var(--color-background);
+    padding: 2rem;
+    border-radius: 10px;
     font-family: var(--font-body);
 }
 
-.booking-services-section .btn-primary {
-    background-color: var(--color-primary);
-    border-color: var(--color-accent);
-    font-family: var(--font-general);
-}
-
-.booking-services-section .image-wrapper {
-    max-width: 80%;
-    margin: auto;
-}
-
-.booking-services-section img {
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* General styles for the service sections */
-.service-section {
-    background-color: var(--color-support-olive);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.service-section img {
-    object-fit: cover;
-    height: 100%;
-    border-bottom: 1px solid var(--color-support-olive);
-}
-
-.service-section .card-body {
-    padding: 2rem;
-    background-color: var(--color-background);
-}
-
-.service-section .card-title {
-    font-size: 1.5rem;
-    font-family: var(--font-heading);
-    font-weight: bold;
+.cart-title {
     color: var(--color-primary);
-    margin-bottom: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: var(--font-heading);
 }
 
-.service-section .card-text {
+/* Table Styles */
+.cart-table-container {
+    background-color: var(--color-secondary);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart-table {
+    background-color: var(--color-background);
+    font-family: var(--font-body);
+}
+
+.cart-table thead {
+    background-color: var(--color-primary);
+}
+
+.cart-table thead th {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.cart-table tbody tr {
+    border-bottom: 1px solid var(--color-secondary);
+}
+
+.cart-table tbody td {
     font-size: 1rem;
     color: var(--color-support-charcoal);
-    font-family: var(--font-body);
-    margin-bottom: 1rem;
+    padding: 1rem;
 }
 
-.service-section .card-text.fw-bold {
-    font-weight: bold;
+.cart-item-row {
+    transition: background-color 0.3s ease;
+}
+
+.cart-item-row:hover {
+    background-color: var(--color-accent);
+}
+
+/* Price, Quantity, Subtotal */
+.price-cell, .quantity-cell, .subtotal-cell {
+    font-weight: 600;
     color: var(--color-primary);
 }
 
-.service-section .btn-primary {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    text-transform: uppercase;
-    font-family: var(--font-general);
-    color: #fff;
+/* Totals and Buttons */
+.cart-total, .delivery-charge, .grand-total {
+    font-size: 1.2rem;
+    color: var(--color-primary);
+    font-weight: bold;
+    font-family: var(--font-subheading);
 }
 
-.service-section .btn-primary:hover {
-    background-color: var(--color-support-charcoal);
-    border-color: var(--color-support-charcoal);
+.free-delivery-alert {
+    font-size: 0.95rem;
+    color: var(--color-accent);
+}
+
+.keep-shopping-btn, .checkout-btn {
+    background-color: var(--color-primary);
+    border-color: var(--color-support-olive);
+    color: var(--color-background);
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-general);
+}
+
+.keep-shopping-btn:hover, .checkout-btn:hover {
+    background-color: var(--color-accent);
+    color: var(--color-support-charcoal);
+}
+
+/* Empty Cart Message */
+.empty-cart-message p {
+    font-size: 1.2rem;
+    color: var(--color-support-charcoal);
+}
+
+.empty-cart-message a {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-general);
 }
 
 /* Back to Top Button */
