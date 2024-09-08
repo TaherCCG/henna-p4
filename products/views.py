@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from django.db.models.functions import Lower
+from django.utils import timezone
 from .models import HennaProduct, ProductsCategory
 
 def all_products(request):
@@ -12,6 +13,7 @@ def all_products(request):
     categories = None
     sort = None
     direction = None
+    discounted = request.GET.get('discounted') == 'true'
 
     if request.GET:
         if 'sort' in request.GET:
@@ -42,6 +44,14 @@ def all_products(request):
             
             queries = Q(name__icontains=query) | Q(description__icontains=query)
             products = products.filter(queries)
+
+        # Filter by discounted items  Ref: https://docs.djangoproject.com/en/5.1/topics/db/queries/#field-lookups
+        if discounted:
+            products = products.filter(
+                discounts__active=True,
+                discounts__start_date__lte=timezone.now(),
+                discounts__end_date__gte=timezone.now()
+            ).distinct()
 
     current_sorting = f'{sort}_{direction}'
 
