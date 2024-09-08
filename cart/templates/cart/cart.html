@@ -50,13 +50,17 @@
                                         <p class="small text-muted mb-0">SKU: {{ item.product.sku|upper }}</p>
                                     </td>
                                     <td class="py-3 text-center price-cell">
-                                        <p>£{{ item.product.price }}</p>
+                                        {% if item.discounted_price %}
+                                            <p class="discounted-price">£{{ item.discounted_price|floatformat:2 }}</p>
+                                        {% else %}
+                                            <p>£{{ item.product.price|floatformat:2 }}</p>
+                                        {% endif %}
                                     </td>
                                     <td class="py-3 text-center quantity-cell">
                                         <p>{{ item.quantity }}</p>
                                     </td>
                                     <td class="py-3 text-end subtotal-cell">
-                                        <p>£{{ item.product.price }}</p>
+                                        <p>£{{ item.subtotal|floatformat:2 }}</p>
                                     </td>
                                 </tr>
                             {% endfor %}
