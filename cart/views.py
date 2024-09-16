@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from decimal import Decimal, ROUND_HALF_UP
 from products.models import HennaProduct
 from django.http import JsonResponse
@@ -43,6 +44,7 @@ def view_cart(request):
 
 def add_to_cart(request, item_id):
     """Add a specified quantity of a product to the shopping cart with its discounted price."""
+    prduct = HennaProduct.objects.get(pk=item_id)
     quantity = int(request.POST.get('quantity', 1))
     redirect_url = request.POST.get('redirect_url', '/')
 
@@ -63,6 +65,7 @@ def add_to_cart(request, item_id):
             'quantity': quantity,
             'discounted_price': str(discounted_price)
         }
+        messages.success(request, f'Added {product.name} to your Shopping Cart' )
 
     request.session.modified = True
 

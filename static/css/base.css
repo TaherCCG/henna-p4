@@ -555,6 +555,22 @@ button {
 .footer a:hover {
     color: var(--color-accent);
 }
+
+.message-container {
+    position: fixed !important;
+    top: 72px !important;
+    right: 15px !important;
+    z-index: 99999999999 !important;
+}
+
+.custom-toast {
+    overflow: visible;
+}
+
+.toast-capper {
+    height: 2px;
+}
+
 /* Media Queries */
 
 /* Large Devices (Desktops) */
