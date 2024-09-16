@@ -44,7 +44,8 @@ def view_cart(request):
 
 def add_to_cart(request, item_id):
     """Add a specified quantity of a product to the shopping cart with its discounted price."""
-    prduct = HennaProduct.objects.get(pk=item_id)
+    
+    product = get_object_or_404(HennaProduct, pk=item_id)
     quantity = int(request.POST.get('quantity', 1))
     redirect_url = request.POST.get('redirect_url', '/')
 
@@ -53,6 +54,7 @@ def add_to_cart(request, item_id):
     try:
         product = HennaProduct.objects.get(id=item_id)
     except HennaProduct.DoesNotExist:
+        messages.error(request, 'The requested product does not exist.')
         return redirect(redirect_url)
 
     discounted_price = product.get_discounted_price()
@@ -60,12 +62,13 @@ def add_to_cart(request, item_id):
 
     if str_item_id in cart:
         cart[str_item_id]['quantity'] += quantity
+        messages.success(request, f'Updated {product.name} quantity to {cart[str_item_id]["quantity"]}')
     else:
         cart[str_item_id] = {
             'quantity': quantity,
             'discounted_price': str(discounted_price)
         }
-        messages.success(request, f'Added {product.name} to your Shopping Cart' )
+        messages.success(request, f'Added {product.name} to your shopping cart.')
 
     request.session.modified = True
 
@@ -77,6 +80,7 @@ def adjust_cart(request, item_id):
     if request.method != 'POST':
         return redirect('view_cart')
 
+    product = get_object_or_404(HennaProduct, pk=item_id)
     quantity = int(request.POST.get('quantity', 0))
     str_item_id = str(item_id)
     cart = request.session.get('cart', {})
@@ -84,8 +88,12 @@ def adjust_cart(request, item_id):
     if str_item_id in cart:
         if quantity > 0:
             cart[str_item_id]['quantity'] = quantity
+            messages.success(request, f'Updated {product.name} quantity to {quantity}')
         else:
             cart.pop(str_item_id)
+            messages.warning(request, f'Removed {product.name} from your shopping cart.')
+    else:
+        messages.error(request, f'{product.name} was not found in your cart.')
 
     request.session['cart'] = cart
 
@@ -97,14 +105,17 @@ def remove_from_cart(request, item_id):
     if request.method != 'POST':
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+    product = get_object_or_404(HennaProduct, pk=item_id)
     str_item_id = str(item_id)
     cart = request.session.get('cart', {})
 
     if str_item_id in cart:
         cart.pop(str_item_id)
+        messages.success(request, f'Removed {product.name} from your shopping cart.')
         request.session['cart'] = cart
-        return JsonResponse({'success': True})
+        return JsonResponse({'success': True, 'message': f'Removed {product.name} from your cart.'})
     else:
+        messages.error(request, f'{product.name} was not found in your cart.')
         return JsonResponse({'error': 'Item not found in cart'}, status=404)
 
 # Using session 
