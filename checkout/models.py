@@ -88,20 +88,23 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='orderitems', on_delete=models.CASCADE)
     product = models.ForeignKey(HennaProduct, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    price_at_order = models.DecimalField(max_digits=6, decimal_places=2)
+    price_at_order = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
     def save(self, *args, **kwargs):
         """
         Override save to set the price at order time, considering any active discounts.
         """
-        if not self.price_at_order:
+        if self.price_at_order is None:
             self.price_at_order = self.product.get_discounted_price()
         super().save(*args, **kwargs)
 
     def get_total(self):
         """
         Calculate the total price for this item (quantity * price_at_order).
+        Handles cases where price_at_order may be None.
         """
+        if self.price_at_order is None:
+            return 0
         return self.price_at_order * self.quantity
 
     def __str__(self):
