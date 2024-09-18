@@ -102,7 +102,9 @@
                         <a class="{% if grand_total %}text-info fw-bold{% else %}text-black{% endif %} nav-link"
                             href="{% url 'view_cart' %}">
                             <div class="text-center">
-                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span class="icon">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </span>
                                 <p class="mb-0">
                                     {% if total %}
                                         £{{ total|floatformat:2 }}
@@ -167,13 +169,13 @@
             <p class="mb-2">© 2024 Henna Store. All rights reserved.</p>
             <div class="mb-3">
                 <a href="https://github.com/TaherCCG" class="text-light me-3" aria-label="GitHub" target="_blank">
-                    <i class="fab fa-github"></i> GitHub
+                    <i class="fab fa-github icon"></i> GitHub
                 </a>
                 <a href="https://www.linkedin.com/in/taher-m" class="text-light me-3" aria-label="LinkedIn" target="_blank">
-                    <i class="fab fa-linkedin"></i> LinkedIn
+                    <i class="fab fa-linkedin icon"></i> LinkedIn
                 </a>
                 <a href="/contact" class="text-light" aria-label="Contact Us">
-                    <i class="fas fa-envelope"></i> Contact Us
+                    <i class="fas fa-envelope icon"></i> Contact Us
                 </a>
             </div>
             <small>
