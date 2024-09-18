@@ -39,6 +39,8 @@
                                 <thead class="bg-dark text-light">
                                     <tr>
                                         <th scope="col" class="text-start">Product</th>
+                                        <th scope="col" class="text-start">Name</th>
+                                        <th scope="col" class="text-start">SKU</th>
                                         <th scope="col" class="text-center">Price</th>
                                         <th scope="col" class="text-center">Quantity</th>
                                         <th scope="col" class="text-end">Subtotal</th>
@@ -54,7 +56,15 @@
                                             <td class="p-3 w-25">
                                                 <img class="img-fluid rounded product-img" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
                                             </td>
-                                            <!-- Product Details -->
+                                            <!-- Product Name -->
+                                            <td class="py-3 text-start">
+                                                <p>{{ item.product.name }}</p>
+                                            </td>
+                                            <!-- Product SKU -->
+                                            <td class="py-3 text-start">
+                                                <p class="text-muted">{{ item.product.sku|upper }}</p>
+                                            </td>
+                                            <!-- Price -->
                                             <td class="py-3 text-center price-cell">
                                                 {% if item.discounted_price %}
                                                     <p class="discounted-price">£{{ item.discounted_price|floatformat:2 }}</p>
@@ -103,31 +113,31 @@
                                 <tfoot>
                                     <!-- Cart Totals -->
                                     <tr>
-                                        <td colspan="4" class="text-end">Cart Total</td>
+                                        <td colspan="5" class="text-end">Cart Total</td>
                                         <td>£{{ total|floatformat:2 }}</td>
                                     </tr>
                                     {% if free_delivery_delta > 0 %}
                                         <tr>
-                                            <td colspan="5" class="text-danger text-end">
+                                            <td colspan="7" class="text-danger text-end">
                                                 Spend <strong>£{{ free_delivery_delta }}</strong> more for free delivery!
                                             </td>
                                         </tr>
                                     {% endif %}
                                     <tr>
-                                        <td colspan="4" class="text-end">Estimated Delivery Cost</td>
-                                        <td>£{{ delivery|floatformat:2 }}</td>
+                                        <td colspan="5" class="text-end">Estimated Delivery Cost</td>
+                                        <td>£{{ delivery_cost|floatformat:2 }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4" class="text-end">Estimated VAT</td>
+                                        <td colspan="5" class="text-end">Estimated VAT</td>
                                         <td>£{{ vat_amount|floatformat:2 }}</td> 
                                     </tr>
                                     <tr class="fw-bold">
-                                        <td colspan="4" class="text-end">Grand Total</td>
+                                        <td colspan="5" class="text-end">Grand Total</td>
                                         <td>£{{ grand_total|floatformat:2 }}</td>
                                     </tr>
                               
                                     <tr>
-                                        <td colspan="5" class="text-end">
+                                        <td colspan="7" class="text-end">
                                             <!-- Continue Shopping and Checkout Buttons -->
                                             <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg me-3 keep-shopping-btn">
                                                 <span class="icon me-1">
@@ -204,7 +214,7 @@
                         <!-- Cart Totals -->
                         <div class="text-end mt-3">
                             <h6 class="cart-total"><strong>Cart Total: £{{ total|floatformat:2 }}</strong></h6>
-                            <h6 class="delivery-charge">Delivery: £{{ delivery|floatformat:2 }}</h6>
+                            <h6 class="delivery-charge">Delivery: £{{ delivery_cost|floatformat:2 }}</h6>
                             <h4 class="grand-total mt-3"><strong>Grand Total: £{{ grand_total|floatformat:2 }}</strong></h4>
                             {% if free_delivery_delta > 0 %}
                                 <p class="mb-2 text-danger free-delivery-alert">
