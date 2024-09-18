@@ -43,6 +43,10 @@ def cart_contents(request):
         vat_amount = Decimal('0.00')
         delivery_cost = Decimal('0.00')
 
+    # Calculate free delivery threshold and delta
+    free_delivery_threshold = Decimal(settings.FREE_DELIVERY_THRESHOLD)
+    free_delivery_delta = free_delivery_threshold - total if total < free_delivery_threshold else Decimal('0.00')
+
     context = {
         'cart_items': cart_items,
         'total': total,  # Subtotal, without VAT and delivery
@@ -50,6 +54,8 @@ def cart_contents(request):
         'grand_total': grand_total,  # Grand total with VAT and delivery, shown only on cart and checkout pages
         'vat_amount': vat_amount,
         'delivery_cost': delivery_cost,
+        'free_delivery_threshold': free_delivery_threshold,
+        'free_delivery_delta': free_delivery_delta,
     }
 
     return context
