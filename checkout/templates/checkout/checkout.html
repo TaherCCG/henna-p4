@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load checkout_filters %}
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block page_header %}
+    <!-- Header Container -->
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="overlay"></div>
+<div class="container mt-5 mb-5">
+    <div class="row g-5">
+        <!-- Checkout Form Section -->
+        <div class="col-lg-7">
+            <div class="checkout-form p-4 rounded shadow-sm bg-light">
+                <h1 class="text-center mb-4">Checkout</h1>
+                <form method="post" action="{% url 'checkout' %}" id="payment-form">
+                    {% csrf_token %}
+
+                    <!-- Contact Details -->
+                    <fieldset class="mb-4 border p-3 rounded">
+                        <legend class="text-primary">Contact Details</legend>
+                        {{ order_form.full_name|as_crispy_field }}
+                        {{ order_form.email|as_crispy_field }}
+                    </fieldset>
+
+                    <!-- Shipping Information -->
+                    <fieldset class="mb-4 border p-3 rounded">
+                        <legend class="text-primary">Shipping Information</legend>
+                        {{ order_form.street_address1|as_crispy_field }}
+                        {{ order_form.street_address2|as_crispy_field }}
+                        {{ order_form.town_or_city|as_crispy_field }}
+                        {{ order_form.postcode|as_crispy_field }}
+                        {{ order_form.country|as_crispy_field }}
+                        {{ order_form.phone_number|as_crispy_field }}
+
+                        <!-- Delivery Method -->
+                        <fieldset class="mt-4 border p-3 rounded">
+                            <legend class="text-primary">Delivery Method</legend>
+                            <div class="mb-3">
+                                <p class="text-muted">You can change the delivery type below:</p>
+                                <select id="id_delivery_method" name="delivery_method" class="form-select">
+                                    {% if is_threshold_met %}
+                                        <!-- Show Free Delivery and other options -->
+                                        {% for delivery in delivery_methods %}
+                                            <option value="{{ delivery.id }}"
+                                                {% if delivery.name == delivery_name %}selected{% endif %}>
+                                                {{ delivery.name }}
+                                            </option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <!-- Show Standard Delivery and other options, but not Free Delivery -->
+                                        {% for delivery in delivery_methods %}
+                                            {% if delivery.name != "Free Delivery" %}
+                                                <option value="{{ delivery.id }}"
+                                                    {% if delivery.name == delivery_name %}selected{% endif %}>
+                                                    {{ delivery.name }}
+                                                </option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div id="delivery-info">
+                                <p id="company-name">Company: {{ delivery_name }}</p>
+                                <p id="estimated-delivery-time">Estimated Delivery Time: {{ estimated_delivery_time }}</p>
+                                <p id="delivery-cost">£{{ delivery_cost|floatformat:2 }}</p>
+                            </div>
+                        </fieldset>
+
+
+                        <!-- Save Info Checkbox -->
+                        <div class="form-check mt-3">
+                            {% if user.is_authenticated %}
+                            <input class="form-check-input" type="checkbox" id="id-save-info" name="save-info" checked>
+                            <label class="form-check-label" for="id-save-info">
+                                Save this delivery information to my profile
+                            </label>
+                            {% else %}
+                            <label class="form-check-label" for="id-save-info">
+                                <a class="text-primary" href="{% url 'account_signup' %}">Create an account</a> or
+                                <a class="text-primary" href="{% url 'account_login' %}">login</a> to save this
+                                information
+                            </label>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+
+                    <!-- Payment Information -->
+                    <fieldset class="mb-4 border p-3 rounded">
+                        <legend class="text-primary">Payment Information</legend>
+                        <div class="mb-3" id="card-element"></div>
+                        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-primary w-100">Place Order</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="col-lg-5">
+            <div class="order-summary p-4 rounded shadow-sm bg-light">
+                <h2 class="mb-4 text-center">Order Summary ({{ cart_items|length }})</h2>
+                <div class="p-3 bg-white rounded border">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Image</th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'product_detail' item.product.id %}">
+                                        {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                            class="img-fluid rounded" style="width: 100px;">
+                                        {% else %}
+                                        <img src="{% static 'media/no-image.png' %}" alt="No Image Available"
+                                            class="img-fluid rounded" style="width: 100px;">
+                                        {% endif %}
+                                    </a>
+                                </td>
+                                <td>{{ item.product.name }}</td>
+                                <td>£{{ item.discounted_price|floatformat:2 }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <!-- Use the custom multiply filter -->
+                                <td>£{{ item.discounted_price|floatformat:2|multiply:item.quantity|floatformat:2 }}</td>
+                            </tr>
+                            {% endfor %}
+                          <!-- Order Summary Table -->
+                            <tr class="fw-bold">
+                                <td colspan="4" class="text-end">Subtotal</td>
+                                <td>£{{ total_cost|floatformat:2 }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-end">VAT</td>
+                                <td>£{{ vat_amount|floatformat:2 }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-end">Delivery Cost</td>
+                                <td id="order-summary-delivery-cost">£{{ delivery_cost|floatformat:2 }}</td>
+                            </tr>
+                            <tr class="fw-bold">
+                                <td colspan="4" class="text-end">Grand Total (incl. VAT)</td>
+                                <td id="grand-total">£{{ grand_total_with_vat|floatformat:2 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Free Delivery Alert -->
+                    {% if delivery_name == 'Free Delivery' %}
+                        <div class="alert alert-info mt-3 text-center">
+                            Free delivery Available!
+                        </div>    
+                    {% else %}
+                        <div class="alert alert-warning mt-3 text-center">
+                            Spend <strong>£{{ free_delivery_delta }}</strong> more for free delivery!
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deliverySelect = document.getElementById('id_delivery_method');
+        const deliveryCostField = document.getElementById('delivery-cost');
+        const orderSummaryDeliveryCost = document.getElementById('order-summary-delivery-cost');
+        const grandTotalField = document.getElementById('grand-total');
+        const estimatedDeliveryTimeField = document.getElementById('estimated-delivery-time');
+        const companyNameField = document.getElementById('company-name');
+
+        deliverySelect.addEventListener('change', function () {
+            const deliveryMethodId = this.value;
+
+            fetch(`/checkout/update-delivery/${deliveryMethodId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    companyNameField.textContent = `Company: ${data.company_name} (${data.delivery_name})`;
+                    estimatedDeliveryTimeField.textContent = `Estimated Delivery Time: ${data.estimated_delivery_time}`;
+                    deliveryCostField.textContent = `£${data.delivery_cost.toFixed(2)}`;
+                    orderSummaryDeliveryCost.textContent = `£${data.delivery_cost.toFixed(2)}`;
+                    grandTotalField.textContent = `£${data.grand_total_with_vat.toFixed(2)}`; // Use grand_total_with_vat here
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+{% endblock %}
