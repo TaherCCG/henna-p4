@@ -5,7 +5,6 @@ from products.models import HennaProduct
 from django.http import JsonResponse
 from django.conf import settings
 
-
 def view_cart(request):
     """Retrieve and display the shopping cart contents and calculate totals."""
     cart = request.session.get('cart', {})
@@ -27,20 +26,33 @@ def view_cart(request):
         total += subtotal
 
     # Round the total to 2 decimal places
-    # https://docs.python.org/3/library/decimal.html#decimal.Decimal.quantize
     total = total.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
     grand_total = total
 
+    # Calculate delivery cost and VAT
     free_delivery_threshold = Decimal(settings.FREE_DELIVERY_THRESHOLD)
+    vat_rate = Decimal(settings.VAT_RATE)
+    
+    if total >= free_delivery_threshold:
+        delivery_cost = Decimal('0.00')
+    else:
+        delivery_method = 'Standard Delivery' 
+        delivery_cost = Decimal('4.99') 
+
+    vat_amount = total * vat_rate
+    vat_amount = vat_amount.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    grand_total_with_vat = total + vat_amount + delivery_cost
+
     free_delivery_delta = free_delivery_threshold - total
 
     return render(request, 'cart/cart.html', {
         'cart_items': cart_items,
         'total': total,
-        'grand_total': grand_total,
+        'delivery': delivery_cost,
+        'vat_amount': vat_amount,
+        'grand_total': grand_total_with_vat,
         'free_delivery_delta': free_delivery_delta if free_delivery_delta > 0 else Decimal('0.00')
     })
-
 
 def add_to_cart(request, item_id):
     """Add a specified quantity of a product to the shopping cart with its discounted price."""
@@ -74,7 +86,6 @@ def add_to_cart(request, item_id):
 
     return redirect(redirect_url)
 
-
 def adjust_cart(request, item_id):
     """Adjust the quantity of a specific product in the cart."""
     if request.method != 'POST':
@@ -98,7 +109,6 @@ def adjust_cart(request, item_id):
     request.session['cart'] = cart
 
     return redirect('view_cart')
-
 
 def remove_from_cart(request, item_id):
     """Remove a product from the shopping cart."""
