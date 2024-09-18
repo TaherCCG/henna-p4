@@ -60,7 +60,7 @@ p {
 /* Buttons */
 button, .shop-now-button, .checkout-btn, .keep-shopping-btn {
     background-color: var(--color-primary);
-    color: var(--color-background);
+    color: var(--color-secondary);
     text-transform: uppercase;
     padding: 0.75rem 1.5rem;
     font-family: var(--font-general);
@@ -95,6 +95,13 @@ button, .shop-now-button, .checkout-btn, .keep-shopping-btn {
     justify-content: center;
     height: 1.5rem;
     width: 1.5rem;
+    color: var(--color-primary);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.2);
+    color: var(--color-secondary); 
 }
 
 /* Dropdown */
