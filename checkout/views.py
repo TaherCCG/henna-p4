@@ -15,6 +15,9 @@ def checkout(request):
     cart_context = cart_contents(request)
     cart = request.session.get('cart', {})
     
+    # Stripe
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    
     # Redirect if the cart is empty
     if not cart:
         messages.error(request, "Your cart is empty.")
@@ -27,7 +30,7 @@ def checkout(request):
     delivery_methods = Delivery.objects.filter(active=True)
     free_delivery_threshold = Decimal(settings.FREE_DELIVERY_THRESHOLD)
     
-    # Set default delivery options: Standard Delivery, unless the free delivery threshold is met
+    # Set default delivery options: Standard Delivery
     delivery_cost = Decimal('0.00')
     delivery_name = 'Standard Delivery'
     
@@ -80,6 +83,8 @@ def checkout(request):
         'free_delivery_delta': free_delivery_delta,
         'cart_items': cart_context['cart_items'],  # Add cart items to context
         'product_count': cart_context['product_count'],  # Add product count to context
+        'stripe_public_key': stripe_public_key,
+        'client_secret': 'test client secret',
     }
     
     return render(request, 'checkout/checkout.html', context)

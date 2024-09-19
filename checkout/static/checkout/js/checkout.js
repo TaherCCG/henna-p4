@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const deliveryCostField = document.getElementById('delivery-cost'); 
     const orderSummaryDeliveryCost = document.getElementById('order-summary-delivery-cost'); 
     const grandTotalField = document.getElementById('grand-total'); 
+    const grandTotalToPayField=document.getElementById('grand-total-to-pay');
     const estimatedDeliveryTimeField = document.getElementById('estimated-delivery-time'); 
     const companyNameField = document.getElementById('company-name'); 
 
@@ -21,7 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 estimatedDeliveryTimeField.textContent = `Estimated Delivery Time: ${data.estimated_delivery_time}`;
                 deliveryCostField.textContent = `£${data.delivery_cost.toFixed(2)}`;
                 orderSummaryDeliveryCost.textContent = `£${data.delivery_cost.toFixed(2)}`; 
-                grandTotalField.textContent = `£${data.grand_total_with_vat.toFixed(2)}`; 
+                grandTotalField.textContent = `£${data.grand_total_with_vat.toFixed(2)}`;
+                grandTotalToPayField.textContent = `£${data.grand_total_with_vat.toFixed(2)}`; 
             })
             .catch(error => console.error('Error:', error)); 
     });

@@ -67,7 +67,7 @@ class OrderForm(forms.ModelForm):
             field = self.fields.get(field_name)
             if field:
                 field.widget.attrs['placeholder'] = placeholder
-                field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs['class'] = 'stripe-style-input'
                 field.label = False
         
         # Get delivery methods
@@ -85,8 +85,8 @@ class OrderForm(forms.ModelForm):
             self.fields['delivery_method'].initial = standard_delivery.id
         
         # Add custom class for the delivery method dropdown
-        self.fields['delivery_method'].widget.attrs['class'] = 'form-select'
-        self.fields['delivery_method'].widget.attrs['empty_label'] = None
+        # self.fields['delivery_method'].widget.attrs['class'] = 'stripe-style-input'
+        # self.fields['delivery_method'].widget.attrs['empty_label'] = None
         
         # Set VAT amount and grand total with VAT if provided
         if vat_amount is not None:
@@ -94,3 +94,7 @@ class OrderForm(forms.ModelForm):
         
         if grand_total_with_vat is not None:
             self.fields['grand_total_with_vat'].initial = grand_total_with_vat
+
+#  Refrences:
+#  Django Working with Forms: https://docs.djangoproject.com/en/5.1/topics/forms/#working-with-forms
+#  Accept a payment using Stripe Elements: https://docs.stripe.com/payments/accept-a-payment-charges#set-up-stripe-elements

@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
-{% load checkout_filters %}
 {% load static %}
+{% load checkout_filters %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
 
 {% block title %}Checkout{% endblock %}
 
@@ -20,7 +24,7 @@
         <!-- Checkout Form Section -->
         <div class="col-lg-7">
             <div class="checkout-form p-4 rounded shadow-sm bg-light">
-                <h1 class="text-center mb-4">Checkout</h1>
+                <h1 class="text-center mb-4">Checkout Form</h1>
                 <form method="post" action="{% url 'checkout' %}" id="payment-form">
                     {% csrf_token %}
 
@@ -46,7 +50,7 @@
                             <legend class="text-primary">Delivery Method</legend>
                             <div class="mb-3">
                                 <p class="text-muted">You can change the delivery type below:</p>
-                                <select id="id_delivery_method" name="delivery_method" class="form-select">
+                                <select id="id_delivery_method" name="delivery_method" class="stripe-style-input">
                                     {% if is_threshold_met %}
                                         <!-- Show Free Delivery and other options -->
                                         {% for delivery in delivery_methods %}
@@ -96,11 +100,32 @@
                     <!-- Payment Information -->
                     <fieldset class="mb-4 border p-3 rounded">
                         <legend class="text-primary">Payment Information</legend>
+                        <!-- Strip Card Element -->
                         <div class="mb-3" id="card-element"></div>
+                        <!-- Display form errors -->
                         <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                     </fieldset>
 
-                    <button type="submit" class="btn btn-primary w-100">Place Order</button>
+                    <div class="submit-button text-end mt-5 mb-2">
+                        <a href="{% url 'view_cart' %}" class="btn btn-outline-black rounded-0 d-inline-flex align-items-center">
+                            <span class="icon">
+                                <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="fw-bold ms-2">Adjust Cart</span>
+                        </a>
+                        <button id="submit-button" class="btn btn-black rounded-0 d-inline-flex align-items-center ms-3">
+                            <span class="fw-bold">Complete Order</span>
+                            <span class="icon ms-2">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </button>
+                        <p class="small text-danger my-0 mt-3 d-flex align-items-center">
+                            <span class="icon me-1">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>Your card will be charged <strong id="grand-total-to-pay">£{{ grand_total_with_vat|floatformat:2 }}</strong></span>
+                        </p>
+                    </div>
                 </form>
             </div>
         </div>
@@ -179,5 +204,10 @@
 {% endblock %}
 
 {% block postloadjs %}
+    {{ block.super }}
+    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
+    {{ client_secret|json_script:"id_client_secret" }}
+    <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
     <script src="{% static 'checkout/js/checkout.js' %}"></script>
 {% endblock %}
+

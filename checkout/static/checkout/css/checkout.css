@@ -1,0 +1,43 @@
+/* Custom Stripe styling */
+.StripeElement,
+.stripe-style-input {
+  box-sizing: border-box;
+  height: 40px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-primary); 
+  border-radius: 0px; 
+  background-color: var(--color-background); 
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus,
+.stripe-style-input:focus,
+.stripe-style-input:active {
+  box-shadow: 0 1px 3px 0 var(--color-support-charcoal); 
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important; 
+}
+
+.stripe-style-input::placeholder {
+  color: var(--color-support-charcoal); 
+}
+
+/* Fieldset Label Styling */
+.fieldset-label {
+  position: relative;
+  right: 0.5rem;
+  color: var(--color-primary);
+  font-family: var(--font-body);
+}
+
+/* Payment Form Specific Elements */
+#payment-form .form-control,
+#card-element {
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary); 
+  background-color: var(--color-background); 
+  font-family: var(--font-body);
+}
