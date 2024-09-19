@@ -58,7 +58,7 @@ p {
 }
 
 /* Buttons */
-button, .shop-now-button, .checkout-btn, .keep-shopping-btn {
+.shop-now-button, .checkout-btn, .keep-shopping-btn {
     background-color: var(--color-primary);
     color: var(--color-secondary);
     text-transform: uppercase;
