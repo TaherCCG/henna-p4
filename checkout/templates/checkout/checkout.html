@@ -178,30 +178,6 @@
 </div>
 {% endblock %}
 
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deliverySelect = document.getElementById('id_delivery_method');
-        const deliveryCostField = document.getElementById('delivery-cost');
-        const orderSummaryDeliveryCost = document.getElementById('order-summary-delivery-cost');
-        const grandTotalField = document.getElementById('grand-total');
-        const estimatedDeliveryTimeField = document.getElementById('estimated-delivery-time');
-        const companyNameField = document.getElementById('company-name');
-
-        deliverySelect.addEventListener('change', function () {
-            const deliveryMethodId = this.value;
-
-            fetch(`/checkout/update-delivery/${deliveryMethodId}/`)
-                .then(response => response.json())
-                .then(data => {
-                    companyNameField.textContent = `Company: ${data.company_name} (${data.delivery_name})`;
-                    estimatedDeliveryTimeField.textContent = `Estimated Delivery Time: ${data.estimated_delivery_time}`;
-                    deliveryCostField.textContent = `£${data.delivery_cost.toFixed(2)}`;
-                    orderSummaryDeliveryCost.textContent = `£${data.delivery_cost.toFixed(2)}`;
-                    grandTotalField.textContent = `£${data.grand_total_with_vat.toFixed(2)}`; // Use grand_total_with_vat here
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    });
-</script>
+{% block postloadjs %}
+    <script src="{% static 'checkout/js/checkout.js' %}"></script>
 {% endblock %}
