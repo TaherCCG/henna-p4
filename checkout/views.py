@@ -6,17 +6,19 @@ from .forms import OrderForm
 from django.http import JsonResponse
 from .models import Delivery, Order
 from cart.contexts import cart_contents
+import stripe
 
 def checkout(request):
     """
     Display the checkout form and calculate delivery costs based on the user's cart.
     """
-    # Use cart_contents function to get cart data and totals
-    cart_context = cart_contents(request)
-    cart = request.session.get('cart', {})
-    
     # Stripe
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
+    
+    # Get current cart data, including items, totals, and other details
+    current_cart = cart_contents(request)
+    cart = request.session.get('cart', {})
     
     # Redirect if the cart is empty
     if not cart:
@@ -24,7 +26,7 @@ def checkout(request):
         return redirect('view_cart')
     
     # Calculate total cost of items in the cart
-    total_cost = cart_context['total']
+    total_cost = current_cart['total']
     
     # Fetch delivery methods that are currently active
     delivery_methods = Delivery.objects.filter(active=True)
@@ -66,8 +68,20 @@ def checkout(request):
     grand_total_with_vat = grand_total + vat_amount
     grand_total_with_vat = grand_total_with_vat.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
     
+    # Create Stripe payment intent
+    stripe_total = round(grand_total_with_vat * 100)
+    stripe.api_key = stripe_secret_key
+    intent = stripe.PaymentIntent.create(
+        amount=stripe_total,
+        currency=settings.STRIPE_CURRENCY,
+    )
+
     # Pass total cost and VAT to the order form for display
     order_form = OrderForm(total_cost=total_cost, vat_amount=vat_amount)
+    
+    if not stripe_public_key:
+        messages.warning(request, 'Stripe public key is missing. \
+            Did you forget to set it in your environment?')
 
     context = {
         'order_form': order_form,
@@ -81,13 +95,14 @@ def checkout(request):
         'is_threshold_met': total_cost >= free_delivery_threshold,
         'delivery_methods': delivery_methods,
         'free_delivery_delta': free_delivery_delta,
-        'cart_items': cart_context['cart_items'],  # Add cart items to context
-        'product_count': cart_context['product_count'],  # Add product count to context
+        'cart_items': current_cart['cart_items'], 
+        'product_count': current_cart['product_count'], 
         'stripe_public_key': stripe_public_key,
-        'client_secret': 'test client secret',
+        'client_secret': intent.client_secret,
     }
     
     return render(request, 'checkout/checkout.html', context)
+
 
 def update_delivery(request, delivery_id):
     """
@@ -95,9 +110,8 @@ def update_delivery(request, delivery_id):
     """
     cart = request.session.get('cart', {})
     
-    # Use cart_contents function to get cart data and totals
-    cart_context = cart_contents(request)
-    total_cost = cart_context['total']
+    current_cart = cart_contents(request)
+    total_cost = current_cart['total']
     
     # Calculate VAT
     vat_rate = Decimal(settings.VAT_RATE)
