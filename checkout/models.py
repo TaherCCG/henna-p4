@@ -1,9 +1,11 @@
 import uuid
+from decimal import Decimal
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-from django.db.models import Sum
+from django.db.models import Sum, F, DecimalField
 from products.models import HennaProduct
+
 
 class Delivery(models.Model):
     """
@@ -25,8 +27,7 @@ class Delivery(models.Model):
 
 class Order(models.Model):
     """
-    Model representing a customer's order, with support for free delivery above a threshold
-    and discount handling.
+    Model representing a customer's order, including VAT, delivery cost, and grand total.
     """
     order_number = models.CharField(max_length=32, null=False, editable=False)
     full_name = models.CharField(max_length=50, null=False, blank=False)
@@ -42,6 +43,8 @@ class Order(models.Model):
     delivery_cost = models.DecimalField(max_digits=6, decimal_places=2, null=False, default=0)
     order_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
+    vat_amount = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    grand_total_with_vat = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     delivery_method = models.ForeignKey(Delivery, on_delete=models.SET_NULL, null=True, blank=True)
 
     def _generate_order_number(self):
@@ -56,29 +59,34 @@ class Order(models.Model):
         """
         if not self.order_number:
             self.order_number = self._generate_order_number()
-        super().save(*args, **kwargs)
+        super().save(*args, **kwargs)  # Save the order first
+        self.update_total()  # Then update totals after saving
 
     def update_total(self):
         """
-        Update the grand total for the order, considering discounts, free delivery threshold,
-        and delivery costs.
+        Update the grand total for the order, considering VAT, discounts, and delivery costs.
         """
-        # Calculate the total price of all items, considering discounts
+        # Calculate the total price of all items, factoring in their quantities
         self.order_total = self.orderitems.aggregate(
-            Sum('price_at_order'))['price_at_order__sum'] or 0
+            total=Sum(F('price_at_order') * F('quantity'), output_field=DecimalField())
+        )['total'] or Decimal('0.00')
 
-        # Check for free delivery threshold from settings
-        if self.order_total >= settings.FREE_DELIVERY_THRESHOLD:
-            self.delivery_cost = 0  # Apply free delivery
-        else:
-            self.delivery_cost = self.delivery_method.cost if self.delivery_method else 0
+        # Fetch delivery cost if method is selected
+        if self.delivery_method:
+            self.delivery_cost = self.delivery_method.cost
 
-        # Calculate grand total (order total + delivery)
+        # Calculate VAT (Assuming a VAT_RATE constant in settings)
+        vat_rate = Decimal(settings.VAT_RATE)
+        self.vat_amount = (self.order_total * vat_rate).quantize(Decimal('0.01'))
+
+        # Calculate grand total (order total + delivery cost)
         self.grand_total = self.order_total + self.delivery_cost
-        super().save()  # Ensure the updated totals are saved
 
-    def __str__(self):
-        return f"Order {self.order_number}"
+        # Calculate grand total including VAT
+        self.grand_total_with_vat = (self.grand_total + self.vat_amount).quantize(Decimal('0.01'))
+
+        # Save changes to the totals
+        super().save(update_fields=['order_total', 'grand_total', 'vat_amount', 'grand_total_with_vat', 'delivery_cost'])
 
 
 class OrderItem(models.Model):
@@ -94,17 +102,14 @@ class OrderItem(models.Model):
         """
         Override save to set the price at order time, considering any active discounts.
         """
-        if self.price_at_order is None:
+        if self.price_at_order == 0.00:
             self.price_at_order = self.product.get_discounted_price()
         super().save(*args, **kwargs)
 
     def get_total(self):
         """
         Calculate the total price for this item (quantity * price_at_order).
-        Handles cases where price_at_order may be None.
         """
-        if self.price_at_order is None:
-            return 0
         return self.price_at_order * self.quantity
 
     def __str__(self):

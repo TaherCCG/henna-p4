@@ -1,80 +1,79 @@
 from django.contrib import admin
-from .models import Delivery, Order, OrderItem
+from .models import Order, OrderItem, Delivery
 
 
 class OrderItemInline(admin.TabularInline):
     """
-    Inline for managing order items directly within the order admin interface.
+    Inline display for OrderItems in the OrderAdmin.
+    Allows managing items directly from the order admin interface.
     """
     model = OrderItem
-    fields = ('product', 'quantity', 'price_at_order', 'get_total')
-    readonly_fields = ('price_at_order', 'get_total')
-    extra = 1  # Can add one extra blank order item row
+    extra = 0  # No extra empty forms displayed
+    readonly_fields = ('product', 'quantity', 'price_at_order', 'get_total')
 
+    def get_total(self, obj):
+        """
+        Calculate and display the total cost for the order item.
+        """
+        return obj.get_total()
 
-@admin.register(Delivery)
-class DeliveryAdmin(admin.ModelAdmin):
-    """
-    Admin interface for managing delivery methods.
-    Displays company details, cost, and estimated delivery time.
-    """
-    list_display = (
-        'company_name', 'name', 'cost', 'estimated_delivery_time',
-        'active', 'created_at', 'updated_at'
-    )
-    list_filter = ('active',)
-    search_fields = ('company_name', 'name', 'details')
-    ordering = ('-created_at',)
-    readonly_fields = ('created_at', 'updated_at')
+    get_total.short_description = 'Total'
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     """
-    Admin interface for managing customer orders.
-    Supports inline editing of order items and automatic total updates.
+    Admin interface for managing Orders.
+    Displays the main fields for each order, along with calculated totals.
     """
     list_display = (
-        'order_number', 'full_name', 'email', 'phone_number', 'country',
-        'postcode', 'town_or_city', 'street_address1', 'street_address2',
-        'county', 'date', 'order_total', 'delivery_cost', 'grand_total',
-        'delivery_method'
-    )
-    list_filter = ('date', 'delivery_method', 'country', 'postcode')
-    search_fields = (
-        'order_number', 'full_name', 'email', 'phone_number', 'country',
-        'postcode', 'town_or_city', 'street_address1', 'street_address2',
-        'county'
+        'order_number', 'full_name', 'email', 'phone_number',
+        'delivery_method', 'order_total', 'delivery_cost', 'vat_amount',
+        'grand_total', 'grand_total_with_vat', 'date'
     )
     readonly_fields = (
-        'order_number', 'date', 'order_total', 'delivery_cost', 'grand_total'
+        'order_number', 'order_total', 'delivery_cost', 'vat_amount',
+        'grand_total', 'grand_total_with_vat', 'date'
     )
+    search_fields = ('order_number', 'full_name', 'email', 'phone_number')
+    list_filter = ('delivery_method', 'date')
     inlines = [OrderItemInline]
 
     def save_model(self, request, obj, form, change):
         """
-        Override save_model to ensure order totals are updated when the order is changed.
+        Override save to update totals after saving the order.
         """
-        if change:  # Update totals only when editing an existing order
-            obj.update_total()
         super().save_model(request, obj, form, change)
+        obj.update_total()
+
+
+@admin.register(Delivery)
+class DeliveryAdmin(admin.ModelAdmin):
+    """
+    Admin interface for managing Delivery methods.
+    Displays the delivery method details and cost.
+    """
+    list_display = (
+        'company_name', 'name', 'cost', 'estimated_delivery_time', 'active'
+    )
+    list_filter = ('active', 'company_name')
+    search_fields = ('company_name', 'name')
+    ordering = ('company_name', 'name')
 
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     """
-    Admin interface for managing individual items in orders.
-    Provides details about the product, quantity, and total price.
+    Admin interface for managing individual OrderItems.
+    Displays product, quantity, and price at order time.
     """
     list_display = ('order', 'product', 'quantity', 'price_at_order', 'get_total')
-    list_filter = ('order', 'product')
-    search_fields = ('order__order_number', 'product__name')
-    readonly_fields = ('price_at_order', 'get_total')
+    readonly_fields = ('order', 'product', 'quantity', 'price_at_order', 'get_total')
 
     def get_total(self, obj):
         """
-        Calculate and display the total price for each order item.
+        Display the total price for the order item.
         """
         return obj.get_total()
 
-    get_total.short_description = 'Total Price'
+    get_total.short_description = 'Total'
