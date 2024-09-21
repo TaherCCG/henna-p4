@@ -21,7 +21,7 @@
 <div class="container mt-5 mb-5">
     <div class="row g-5">
 
-        <!-- Order Summary Section (moved to the top) -->
+        <!-- Order Summary Section -->
         <div class="col-lg-5">
             <div class="order-summary p-4 rounded shadow-sm bg-light">
                 <h2 class="mb-4 text-center">Order Summary ({{ cart_items|length }})</h2>
@@ -51,7 +51,7 @@
                                         </td>
                                         <td>{{ item.product.name }}</td>
                                         <td>£{{ item.discounted_price|floatformat:2 }}</td>
-                                        <td>{{ item.quantity }}</td> <!-- Corrected Quantity Column -->
+                                        <td>{{ item.quantity }}</td>
                                         <td>£{{ item.discounted_price|floatformat:2|multiply:item.quantity|floatformat:2 }}</td>
                                     </tr>
                                 {% endfor %}

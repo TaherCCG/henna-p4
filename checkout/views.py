@@ -88,8 +88,8 @@ def checkout(request):
         quantities = {}
 
         for item in current_cart['cart_items']:
-            product_id = item['product'].id  # Access product ID from the cart item
-            quantity = item['quantity']  # Use the quantity from the cart
+            product_id = item['product'].id  
+            quantity = item['quantity'] 
 
             # Validate the cart's quantity
             if quantity <= 0:
@@ -103,16 +103,16 @@ def checkout(request):
             order = order_form.save(commit=False)
 
             # Get selected delivery method
-            selected_delivery_method = request.POST.get('delivery_method')  # Assuming this is the field name in your form
+            selected_delivery_method = request.POST.get('delivery_method') 
             if selected_delivery_method:
                 selected_delivery = Delivery.objects.get(id=selected_delivery_method)
                 order.delivery_method = selected_delivery
-                order.delivery_cost = selected_delivery.cost  # Use the selected delivery cost
+                order.delivery_cost = selected_delivery.cost 
             else:
-                order.delivery_cost = delivery_cost  # Fallback to calculated delivery cost if none selected
+                order.delivery_cost = delivery_cost 
 
             order.vat_amount = vat_amount
-            order.grand_total_with_vat = (total_cost + order.delivery_cost + vat_amount).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)  # Ensure correct total
+            order.grand_total_with_vat = (total_cost + order.delivery_cost + vat_amount).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)  
             order.save()
 
             # Process cart items with validated quantities
@@ -127,7 +127,7 @@ def checkout(request):
                     order_item.save()
                 except HennaProduct.DoesNotExist:
                     messages.error(request, f"One of the items in your cart wasn't found for product ID {product_id}.")
-                    order.delete()  # Rollback the order if product is not found
+                    order.delete() 
                     return redirect(reverse('view_cart'))
 
             request.session['save_info'] = 'save-info' in request.POST
@@ -146,7 +146,7 @@ def checkout(request):
         'total_cost': total_cost,
         'delivery_cost': delivery_cost,
         'grand_total': grand_total,
-        'grand_total_with_vat': grand_total_with_vat,  # Ensure this reflects the correct amount
+        'grand_total_with_vat': grand_total_with_vat,  
         'vat_amount': vat_amount,
         'delivery_name': delivery_name,
         'free_delivery_threshold': free_delivery_threshold,
