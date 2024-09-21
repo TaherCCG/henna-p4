@@ -8,6 +8,7 @@ class OrderForm(forms.ModelForm):
     Form for creating and updating orders. Includes fields for customer details,
     delivery options, and addresses, as well as VAT and total cost calculations.
     """
+
     vat_amount = forms.DecimalField(
         label='VAT Amount',
         max_digits=10,
@@ -83,10 +84,11 @@ class OrderForm(forms.ModelForm):
             self.fields['delivery_method'].queryset = delivery_methods.filter(name='Free Delivery')
         elif standard_delivery:
             self.fields['delivery_method'].initial = standard_delivery.id
+            self.fields['delivery_method'].queryset = delivery_methods
         
         # Add custom class for the delivery method dropdown
-        # self.fields['delivery_method'].widget.attrs['class'] = 'stripe-style-input'
-        # self.fields['delivery_method'].widget.attrs['empty_label'] = None
+        self.fields['delivery_method'].widget.attrs['class'] = 'stripe-style-input'
+        self.fields['delivery_method'].empty_label = None
         
         # Set VAT amount and grand total with VAT if provided
         if vat_amount is not None:
