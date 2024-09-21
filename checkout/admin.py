@@ -28,15 +28,15 @@ class OrderAdmin(admin.ModelAdmin):
     """
     list_display = (
         'order_number', 'full_name', 'email', 'phone_number',
-        'delivery_method', 'order_total', 'delivery_cost', 'vat_amount',
-        'grand_total', 'grand_total_with_vat', 'date'
-    )
+        'order_total', 'vat_amount','grand_total',
+        'delivery_method', 'delivery_cost', 'grand_total_with_vat', 'date')
+    
     readonly_fields = (
         'order_number', 'order_total', 'delivery_cost', 'vat_amount',
-        'grand_total', 'grand_total_with_vat', 'date'
-    )
+        'grand_total', 'grand_total_with_vat', 'date', 'original_cart',
+        'stripe_pid')
     search_fields = ('order_number', 'full_name', 'email', 'phone_number')
-    list_filter = ('delivery_method', 'date')
+    list_filter = ('delivery_method', 'date', 'grand_total_with_vat')
     inlines = [OrderItemInline]
 
     def save_model(self, request, obj, form, change):
@@ -68,7 +68,7 @@ class OrderItemAdmin(admin.ModelAdmin):
     Displays product, quantity, and price at order time.
     """
     list_display = ('order', 'product', 'quantity', 'price_at_order', 'get_total')
-    readonly_fields = ('order', 'product', 'quantity', 'price_at_order', 'get_total')
+    readonly_fields = ('order', 'product', 'price_at_order', 'get_total')
 
     def get_total(self, obj):
         """

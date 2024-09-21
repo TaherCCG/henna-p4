@@ -123,6 +123,7 @@ def checkout(request):
         # Process the form if valid
         if order_form.is_valid():
             order = order_form.save(commit=False)
+            pid = request.POST.get('client_secret').split('_secret')[0]
 
             # Get selected delivery method
             selected_delivery_method = request.POST.get('delivery_method') 
@@ -135,6 +136,8 @@ def checkout(request):
 
             order.vat_amount = vat_amount
             order.grand_total_with_vat = (total_cost + order.delivery_cost + vat_amount).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)  
+            order.stripe_pid = pid
+            order.original_cart = json.dumps(cart)
             order.save()
 
             # Process cart items with validated quantities

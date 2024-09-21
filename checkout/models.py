@@ -46,6 +46,8 @@ class Order(models.Model):
     vat_amount = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     grand_total_with_vat = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     delivery_method = models.ForeignKey(Delivery, on_delete=models.SET_NULL, null=True, blank=True)
+    original_cart = models.TextField(null=False, blank=False, default='')
+    stripe_pid = models.CharField(max_length=254, null=False, blank=False, default='')
 
     def _generate_order_number(self):
         """
