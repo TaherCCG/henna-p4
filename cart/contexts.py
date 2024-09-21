@@ -12,11 +12,14 @@ def cart_contents(request):
     cart = request.session.get('cart', {})
 
     for item_id, item_data in cart.items():
-        quantity = item_data.get('quantity', 1)
+        quantity = int(item_data.get('quantity', 1))
         product = get_object_or_404(HennaProduct, pk=item_id)
+        
         discounted_price = Decimal(item_data.get('discounted_price', '0.00'))
+        
         total += quantity * discounted_price
         product_count += quantity
+        
         cart_items.append({
             'item_id': item_id,
             'quantity': quantity,
@@ -27,31 +30,31 @@ def cart_contents(request):
     # Round total to 2 decimal places
     total = total.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
-    # Default grand total is the same as subtotal
     grand_total = total
 
-    # Add VAT and delivery cost only on cart or checkout pages
+    # Add VAT and delivery cost on cart or checkout pages
     if request.path in ['/cart/', '/checkout/']:
         vat_rate = Decimal('0.20')  # 20% VAT
         vat_amount = (total * vat_rate).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-        delivery_cost = Decimal('5.00')  # Example delivery cost
-        delivery_cost = delivery_cost.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        
+        if total >= settings.FREE_DELIVERY_THRESHOLD:
+            delivery_cost = Decimal('0.00')
+        else:
+            delivery_cost = Decimal('4.99').quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
-        # Grand total with VAT and delivery
-        grand_total = total + vat_amount + delivery_cost
+        grand_total += vat_amount + delivery_cost
     else:
         vat_amount = Decimal('0.00')
         delivery_cost = Decimal('0.00')
 
-    # Calculate free delivery threshold and delta
     free_delivery_threshold = Decimal(settings.FREE_DELIVERY_THRESHOLD)
     free_delivery_delta = free_delivery_threshold - total if total < free_delivery_threshold else Decimal('0.00')
 
     context = {
         'cart_items': cart_items,
-        'total': total,  # Subtotal, without VAT and delivery
+        'total': total,
         'product_count': product_count,
-        'grand_total': grand_total,  # Grand total with VAT and delivery, shown only on cart and checkout pages
+        'grand_total': grand_total,
         'vat_amount': vat_amount,
         'delivery_cost': delivery_cost,
         'free_delivery_threshold': free_delivery_threshold,
