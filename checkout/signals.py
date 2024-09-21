@@ -14,4 +14,5 @@ def update_order_total_on_delete(sender, instance, **kwargs):
     """
     Update order total on OrderItem deletion.
     """
+    print('delete signal received!')
     instance.order.update_total()
