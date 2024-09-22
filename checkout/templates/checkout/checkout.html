@@ -100,6 +100,7 @@
                         <legend class="text-primary">Contact Details</legend>
                         {{ order_form.full_name|as_crispy_field }}
                         {{ order_form.email|as_crispy_field }}
+                        {{ order_form.phone_number|as_crispy_field }}
                     </fieldset>
 
                     <!-- Shipping Information Fieldset -->
@@ -110,7 +111,6 @@
                         {{ order_form.town_or_city|as_crispy_field }}
                         {{ order_form.postcode|as_crispy_field }}
                         {{ order_form.country|as_crispy_field }}
-                        {{ order_form.phone_number|as_crispy_field }}
                     </fieldset>
 
                     <!-- Delivery Method Fieldset -->
