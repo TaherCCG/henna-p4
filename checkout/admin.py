@@ -27,9 +27,9 @@ class OrderAdmin(admin.ModelAdmin):
     Displays the main fields for each order, along with calculated totals.
     """
     list_display = (
-        'order_number', 'full_name', 'email', 'phone_number',
-        'order_total', 'vat_amount','grand_total',
-        'delivery_method', 'delivery_cost', 'grand_total_with_vat', 'date')
+        'order_number', 'user_profile', 'date', 'full_name', 'email', 
+        'phone_number', 'order_total', 'vat_amount','grand_total',
+        'delivery_method', 'delivery_cost', 'grand_total_with_vat')
     
     readonly_fields = (
         'order_number', 'order_total', 'delivery_cost', 'vat_amount',
