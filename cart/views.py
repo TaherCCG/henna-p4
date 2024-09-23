@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal
 from products.models import HennaProduct
 from django.http import JsonResponse
 from django.conf import settings
+from checkout.utils import calculate_delivery_cost_and_totals
 
 def view_cart(request):
     """Retrieve and display the shopping cart contents and calculate totals."""
@@ -25,50 +26,24 @@ def view_cart(request):
         })
         total += subtotal
 
-    # Round the total to 2 decimal places
-    total = total.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-    grand_total = total
-
-    # Calculate delivery cost and VAT
-    free_delivery_threshold = Decimal(settings.FREE_DELIVERY_THRESHOLD)
-    vat_rate = Decimal(settings.VAT_RATE)
-    
-    if total >= free_delivery_threshold:
-        delivery_cost = Decimal('0.00')
-    else:
-        delivery_method = 'Standard Delivery' 
-        delivery_cost = Decimal('4.99') 
-
-    vat_amount = total * vat_rate
-    vat_amount = vat_amount.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-    grand_total_with_vat = total + vat_amount + delivery_cost
-
-    free_delivery_delta = free_delivery_threshold - total
+    totals = calculate_delivery_cost_and_totals(total)
 
     return render(request, 'cart/cart.html', {
         'cart_items': cart_items,
         'total': total,
-        'delivery': delivery_cost,
-        'vat_amount': vat_amount,
-        'grand_total': grand_total_with_vat,
-        'free_delivery_delta': free_delivery_delta if free_delivery_delta > 0 else Decimal('0.00')
+        'delivery': totals['delivery_cost'],
+        'vat_amount': totals['vat_amount'],
+        'grand_total': totals['grand_total_with_vat'],
+        'free_delivery_delta': totals['free_delivery_delta']
     })
 
 def add_to_cart(request, item_id):
     """Add a specified quantity of a product to the shopping cart with its discounted price."""
-    
     product = get_object_or_404(HennaProduct, pk=item_id)
     quantity = int(request.POST.get('quantity', 1))
     redirect_url = request.POST.get('redirect_url', '/')
 
     cart = request.session.setdefault('cart', {})
-
-    try:
-        product = HennaProduct.objects.get(id=item_id)
-    except HennaProduct.DoesNotExist:
-        messages.error(request, 'The requested product does not exist.')
-        return redirect(redirect_url)
-
     discounted_price = product.get_discounted_price()
     str_item_id = str(item_id)
 
@@ -83,7 +58,6 @@ def add_to_cart(request, item_id):
         messages.success(request, f'Added {product.name} to your shopping cart.')
 
     request.session.modified = True
-
     return redirect(redirect_url)
 
 def adjust_cart(request, item_id):
@@ -107,7 +81,6 @@ def adjust_cart(request, item_id):
         messages.error(request, f'{product.name} was not found in your cart.')
 
     request.session['cart'] = cart
-
     return redirect('view_cart')
 
 def remove_from_cart(request, item_id):
@@ -127,6 +100,3 @@ def remove_from_cart(request, item_id):
     else:
         messages.error(request, f'{product.name} was not found in your cart.')
         return JsonResponse({'error': 'Item not found in cart'}, status=404)
-
-# Using session 
-# https://docs.djangoproject.com/en/5.1/topics/http/sessions/
