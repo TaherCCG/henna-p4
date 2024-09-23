@@ -1,0 +1,198 @@
+[
+{
+    "model": "products.hennaproduct",
+    "pk": 2,
+    "fields": {
+        "category": 3,
+        "sku": "HK001",
+        "name": "Complete Body Art Henna Kit",
+        "description": "This complete Henna body art kit includes pure, natural Henna powder, a reusable applicator cone, and aftercare oil. Perfect for creating stunning temporary body art with ease.",
+        "price": "19.99",
+        "rating": "4.8",
+        "stock_quantity": 0,
+        "is_available": true,
+        "date_added": "2024-09-07T21:50:38Z",
+        "image_url": "https://example.com/images/henna_kit_1.jpg",
+        "image": "kit3.png",
+        "discounts": [
+            2,
+            3
+        ]
+    }
+},
+{
+    "model": "products.hennaproduct",
+    "pk": 3,
+    "fields": {
+        "category": 3,
+        "sku": "HK002",
+        "name": "Natural Henna Hair Colour Kit",
+        "description": "Achieve beautiful, natural hair colour with this Henna hair dye kit. Includes Henna powder and essential oils for nourishing your hair while providing vibrant, long-lasting colour.",
+        "price": "24.99",
+        "rating": "4.5",
+        "stock_quantity": 0,
+        "is_available": true,
+        "date_added": "2024-09-07T21:50:38Z",
+        "image_url": "https://example.com/images/henna_kit_2.jpg",
+        "image": "kit1.png",
+        "discounts": [
+            1
+        ]
+    }
+},
+{
+    "model": "products.hennaproduct",
+    "pk": 4,
+    "fields": {
+        "category": 2,
+        "sku": "DS001",
+        "name": "Henna Design Book for Beginners",
+        "description": "Explore the art of Henna with this beginner-friendly design book. Featuring simple yet beautiful patterns, this guide is perfect for those new to Henna body art.",
+        "price": "12.99",
+        "rating": "4.2",
+        "stock_quantity": 0,
+        "is_available": true,
+        "date_added": "2024-09-07T21:50:38.820Z",
+        "image_url": "https://example.com/images/design_book_1.jpg",
+        "image": "book3.jpg",
+        "discounts": []
+    }
+},
+{
+    "model": "products.hennaproduct",
+    "pk": 5,
+    "fields": {
+        "category": 2,
+        "sku": "DS002",
+        "name": "Floral Henna Stencil Pack",
+        "description": "Create intricate Henna designs with ease using this pack of floral stencils. Perfect for both beginners and experienced artists looking for quick, beautiful results.",
+        "price": "9.99",
+        "rating": "4.6",
+        "stock_quantity": 0,
+        "is_available": true,
+        "date_added": "2024-09-07T21:50:38.820Z",
+        "image_url": "https://example.com/images/stencil_pack_1.jpg",
+        "image": "sten2.png",
+        "discounts": []
+    }
+},
+{
+    "model": "products.hennaproduct",
+    "pk": 6,
+    "fields": {
+        "category": 2,
+        "sku": "DS003",
+        "name": "Advanced Henna Design Book",
+        "description": "Master the art of Henna with this advanced design book. Featuring detailed and complex patterns, this guide is ideal for experienced artists looking to elevate their skills.",
+        "price": "15.99",
+        "rating": "4.7",
+        "stock_quantity": 0,
+        "is_available": true,
+        "date_added": "2024-09-07T21:50:38.820Z",
+        "image_url": "https://example.com/images/design_book_2.jpg",
+        "image": "book4.jpg",
+        "discounts": []
+    }
+},
+{
+    "model": "products.hennaproduct",
+    "pk": 7,
+    "fields": {
+        "category": 1,
+        "sku": "CT001",
+        "name": "Ready-to-Use Henna Cones (Pack of 3)",
+        "description": "This pack of three pre-filled Henna cones is perfect for creating beautiful Henna body art. The cones are easy to use and contain natural Henna paste for long-lasting designs.",
+        "price": "14.99",
+        "rating": "3.0",
+        "stock_quantity": 10,
+        "is_available": true,
+        "date_added": "2024-09-07T21:50:38Z",
+        "image_url": "https://example.com/images/henna_cones_bundle.jpg",
+        "image": "cone-b3.jpeg",
+        "discounts": [
+            1
+        ]
+    }
+},
+{
+    "model": "products.hennaproduct",
+    "pk": 8,
+    "fields": {
+        "category": 1,
+        "sku": "CT002",
+        "name": "Single Pre-Filled Henna Cone",
+        "description": "A single pre-filled Henna cone, perfect for small body art designs. Made with natural ingredients for a safe and long-lasting Henna experience.",
+        "price": "5.99",
+        "rating": "4.7",
+        "stock_quantity": 4,
+        "is_available": true,
+        "date_added": "2024-09-07T21:50:38Z",
+        "image_url": "https://example.com/images/henna_cone_single.jpg",
+        "image": "cone2.jpeg",
+        "discounts": [
+            3
+        ]
+    }
+},
+{
+    "model": "products.hennaproduct",
+    "pk": 9,
+    "fields": {
+        "category": 1,
+        "sku": "CT003",
+        "name": "Empty Henna Cones (Pack of 10)",
+        "description": "A pack of 10 empty Henna cones, ready to be filled with your own Henna paste. These cones are ideal for customising your Henna application.",
+        "price": "7.99",
+        "rating": "4.5",
+        "stock_quantity": 6,
+        "is_available": true,
+        "date_added": "2024-09-07T21:50:38Z",
+        "image_url": "https://example.com/images/empty_henna_cones.jpg",
+        "image": "empty-cones1.png",
+        "discounts": [
+            2,
+            3
+        ]
+    }
+},
+{
+    "model": "products.hennaproduct",
+    "pk": 10,
+    "fields": {
+        "category": 3,
+        "sku": "HK003",
+        "name": "Festival Henna Kit",
+        "description": "A vibrant Henna kit designed for festivals and events. Includes colourful Henna powders and everything you need for creating eye-catching designs.",
+        "price": "29.99",
+        "rating": "4.8",
+        "stock_quantity": 3,
+        "is_available": true,
+        "date_added": "2024-09-12T22:10:39Z",
+        "image_url": "https://example.com/images/festival_henna_kit.jpg",
+        "image": "kit2.png",
+        "discounts": [
+            3
+        ]
+    }
+},
+{
+    "model": "products.hennaproduct",
+    "pk": 11,
+    "fields": {
+        "category": 1,
+        "sku": "CT004",
+        "name": "Organic Henna Cone - Pre-Filled 3 pack",
+        "description": "A pre-filled Henna cone made with organic, natural Henna paste. Ideal for safe and beautiful Henna body art, perfect for sensitive skin. (pack of 3)",
+        "price": "6.99",
+        "rating": "4.9",
+        "stock_quantity": 2,
+        "is_available": true,
+        "date_added": "2024-09-07T21:50:38Z",
+        "image_url": "https://example.com/images/organic_henna_cone.jpg",
+        "image": "cone-b3a.jpeg",
+        "discounts": [
+            3
+        ]
+    }
+}
+]
