@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/checkout_success.css' %}">
+    <link rel="stylesheet" href="{% static 'css/checkout_success.css' %}">
 {% endblock %}
 
 {% block title %}Checkout Success{% endblock %}
@@ -22,7 +22,8 @@
     <div class="container section-background">
         <div class="row mb-4">
             <div class="col text-center">
-                <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong>.</p>
+                <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>{{
+                        order.email }}</strong>.</p>
             </div>
         </div>
 
@@ -43,16 +44,17 @@
 
                     <h5 class="text-muted">Order Details:</h5>
                     {% for item in order.lineitems.all %}
-                    <div class="row mb-2">
-                        <div class="col-6">
-                            <p class="small mb-0 text-black font-weight-bold">
-                                {{ item.product.name }}{% if item.product_size %} - Size {{ item.product.size|upper }}{% endif %}
-                            </p>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <p class="small mb-0 text-black font-weight-bold">
+                                    {{ item.product.name }}{% if item.product_size %} - Size {{ item.product.size|upper }}{%
+                                    endif %}
+                                </p>
+                            </div>
+                            <div class="col-6 text-md-right">
+                                <p class="small mb-0">{{ item.quantity }} @ £{{ item.product.price|floatformat:2 }} each</p>
+                            </div>
                         </div>
-                        <div class="col-6 text-md-right">
-                            <p class="small mb-0">{{ item.quantity }} @ £{{ item.product.price|floatformat:2 }} each</p>
-                        </div>
-                    </div>
                     {% endfor %}
 
                     <h5 class="text-muted">Delivering To:</h5>
@@ -73,8 +75,8 @@
                         </div>
                         <div class="col-6 text-md-right">
                             {% if order.street_address2 %}
-                            <p class="mb-0 text-black font-weight-bold">Address 2</p>
-                            <p class="mb-0">{{ order.street_address2 }}</p>
+                                <p class="mb-0 text-black font-weight-bold">Address 2</p>
+                                <p class="mb-0">{{ order.street_address2 }}</p>
                             {% endif %}
                         </div>
                     </div>
@@ -85,8 +87,8 @@
                         </div>
                         <div class="col-6 text-md-right">
                             {% if order.postcode %}
-                            <p class="mb-0 text-black font-weight-bold">Postal Code</p>
-                            <p class="mb-0">{{ order.postcode }}</p>
+                                <p class="mb-0 text-black font-weight-bold">Postal Code</p>
+                                <p class="mb-0">{{ order.postcode }}</p>
                             {% endif %}
                         </div>
                     </div>
@@ -133,14 +135,26 @@
         </div>
 
         <div class="row mt-4">
-            <div class="col-12 text-right">
-                <a href="{% url 'products' %}?category=henna_designs_stencils,henna_kits" class="btn btn-black rounded-0 my-2">
-                    <span class="icon mr-2">
-                        <i class="fas fa-gifts"></i>
-                    </span>
-                    <span class="text-uppercase">Now check out the latest deals!</span>
-                </a>
-            </div>
+            {% if from_profile %}
+                <div class="col-12 text-right">
+                    <a href="{% url 'profile' %}" class="btn btn-black rounded-0 my-2">
+                        <span class="icon mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span class="text-uppercase">Back to Profile</span>
+                    </a>
+                </div>
+            {% else %}
+                <div class="col-12 text-right">
+                    <a href="{% url 'products' %}?category=henna_designs_stencils,henna_kits"
+                        class="btn btn-black rounded-0 my-2">
+                        <span class="icon mr-2">
+                            <i class="fas fa-gifts"></i>
+                        </span>
+                        <span class="text-uppercase">Now check out the latest deals!</span>
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
