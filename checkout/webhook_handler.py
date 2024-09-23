@@ -24,6 +24,7 @@ class StripeWH_Handler:
         pid = intent.id
         cart = intent.metadata.cart
         save_info = intent.metadata.save_info
+        delivery_method_id = intent.metadata.get('delivery_method_id')
 
         billing_details = intent.charges.data[0].billing_details
         shipping_details = intent.shipping
@@ -34,17 +35,30 @@ class StripeWH_Handler:
             if value == "":
                 shipping_details.address[field] = None
 
-        # Retrieve delivery method and cost from metadata
-        delivery_method_id = intent['metadata'].get('delivery_method_id')
-        delivery_cost = None
+        delivery_cost = self.get_delivery_cost(delivery_method_id)
+
+        order_exists = self.check_order_exists(shipping_details, billing_details, cart, pid, grand_total_with_vat)
+
+        if order_exists:
+            return HttpResponse(content=f'Webhook received: {event["type"]} | SUCCESS: Verified order already in database', status=200)
+
+        order = self.create_order(shipping_details, billing_details, cart, pid, delivery_cost)
+        if not order:
+            return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: Order creation failed', status=500)
+
+        return HttpResponse(content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook', status=200)
+
+    def get_delivery_cost(self, delivery_method_id):
+        """Retrieve delivery cost based on delivery method ID"""
         try:
             delivery_method = Delivery.objects.get(id=delivery_method_id)
-            delivery_cost = Decimal(delivery_method.cost)
+            return Decimal(delivery_method.cost)
         except Delivery.DoesNotExist:
             logger.error(f'Delivery method not found: {delivery_method_id}')
-            return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: Delivery method not found', status=500)
+            return Decimal('0.00')
 
-        order_exists = False
+    def check_order_exists(self, shipping_details, billing_details, cart, pid, grand_total_with_vat):
+        """Check if an order already exists in the database"""
         attempt = 1
         while attempt <= 5:
             try:
@@ -62,16 +76,14 @@ class StripeWH_Handler:
                     original_cart=cart,
                     stripe_pid=pid,
                 )
-                order_exists = True
-                break
+                return True
             except Order.DoesNotExist:
                 attempt += 1
                 time.sleep(1)
+        return False
 
-        if order_exists:
-            return HttpResponse(content=f'Webhook received: {event["type"]} | SUCCESS: Verified order already in database', status=200)
-
-        order = None
+    def create_order(self, shipping_details, billing_details, cart, pid, delivery_cost):
+        """Create a new order in the database"""
         try:
             order = Order.objects.create(
                 full_name=shipping_details.name,
@@ -85,25 +97,20 @@ class StripeWH_Handler:
                 country=shipping_details.address.country,
                 original_cart=cart,
                 stripe_pid=pid,
-                delivery_cost=delivery_cost, 
+                delivery_cost=delivery_cost,
             )
             for item_id, item_data in json.loads(cart).items():
                 product = HennaProduct.objects.get(id=item_id)
-                if isinstance(item_data, int):
-                    order_line_item = OrderItem(
-                        order=order,
-                        product=product,
-                        quantity=item_data,
-                    )
-                    order_line_item.save()
-
+                order_line_item = OrderItem(
+                    order=order,
+                    product=product,
+                    quantity=item_data,
+                )
+                order_line_item.save()
+            return order
         except Exception as e:
-            if order:
-                order.delete()
             logger.error(f'Error creating order: {e}')
-            return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: {e}', status=500)
-
-        return HttpResponse(content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook', status=200)
+            return None
 
     def handle_payment_intent_payment_failed(self, event):
         """Handle the payment_intent.payment_failed webhook from Stripe"""
