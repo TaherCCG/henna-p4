@@ -25,6 +25,8 @@ class HennaProductAdmin(admin.ModelAdmin):
         'stock_quantity',
         'is_available',
         'date_added',
+        'image',
+        'image_url',
     )
     ordering = ('sku',)
     search_fields = (
