@@ -3,6 +3,7 @@ import dj_database_url
 from decimal import Decimal
 from pathlib import Path
 
+
 # Load environment variables from env.py if it exists
 if os.path.exists("env.py"):
     import env
