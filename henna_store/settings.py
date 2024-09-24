@@ -3,7 +3,6 @@ import dj_database_url
 from decimal import Decimal
 from pathlib import Path
 
-
 # Load environment variables from env.py if it exists
 if os.path.exists("env.py"):
     import env
@@ -34,7 +33,7 @@ INSTALLED_APPS = [
     'profiles',
     'crispy_forms',
     'crispy_bootstrap5',
-    'storages',
+    'storages',  # Added for S3 storage
 ]
 
 MIDDLEWARE = [
@@ -143,39 +142,50 @@ USE_TZ = True
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Static and media files settings
-# AWS_URL = f'https://{os.environ.get("AWS_STORAGE_BUCKET_NAME")}.s3.{os.environ.get("AWS_S3_REGION_NAME")}.amazonaws.com'
-
-# S3 settings
+# AWS S3 settings
 if 'USE_AWS' in os.environ:
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = "eu-west-2"
+    AWS_S3_REGION_NAME = 'eu-west-2'  # Adjust this if needed
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    AWS_DEFAULT_ACL = None
 
-    # Static and media files
-    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+    # S3 object parameters
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+
+    # S3 settings for static and media files
+    AWS_DEFAULT_ACL = 'public-read'  # Makes files publicly accessible
+    AWS_S3_FILE_OVERWRITE = False  # Prevents overwriting files with the same name
+    AWS_IS_GZIPPED = True  # Enables gzip compression
+    GZIP_CONTENT_TYPES = (
+        'text/css',
+        'text/javascript',
+        'application/javascript',
+        'application/x-javascript',
+        'image/svg+xml',
+    )
+
+    # Configure file storage using Django storage API
+    STATICFILES_STORAGE = 'storages.backends.s3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Boto3Storage'
+
+    # Static and media file locations
     STATICFILES_LOCATION = 'static'
-    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
     MEDIAFILES_LOCATION = 'media'
-    
+
     # Override static and media URLs in production
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
 
 else:
-     STATIC_URL = '/static/'
-     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-     MEDIA_URL = '/media/'
-     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    
-
-
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Other settings
 FREE_DELIVERY_THRESHOLD = 50
