@@ -11,7 +11,7 @@ if os.path.exists("env.py"):
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 DEBUG = 'DEVELOPMENT' in os.environ
 ALLOWED_HOSTS = [
-    '8000-taherccg-hennap4-4telli2ywmt.ws.codeinstitute-ide.net',
+    'henna-p4-e4f7804d3043.herokuapp.com',
 ]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
