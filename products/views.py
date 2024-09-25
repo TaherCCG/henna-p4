@@ -119,7 +119,7 @@ def edit_product(request, product_id):
 
 def delete_product(request, product_id):
     """A view to delete a product."""
-
+    
     product = get_object_or_404(HennaProduct, pk=product_id)
 
     if request.method == 'POST':
@@ -127,7 +127,7 @@ def delete_product(request, product_id):
         messages.success(request, 'Product deleted successfully!')
         return redirect('products')
 
-    return render(request, 'products/product_confirm_delete.html', {'product': product})
+    return HttpResponse(status=405)
 
 
 def add_discount(request):
@@ -164,7 +164,7 @@ def edit_discount(request, discount_id):
 
 def delete_discount(request, discount_id):
     """A view to delete a discount."""
-
+    
     discount = get_object_or_404(Discount, pk=discount_id)
 
     if request.method == 'POST':
@@ -172,4 +172,4 @@ def delete_discount(request, discount_id):
         messages.success(request, 'Discount deleted successfully!')
         return redirect('products')
 
-    return render(request, 'products/discount_confirm_delete.html', {'discount': discount})
+    return HttpResponse(status=405) 

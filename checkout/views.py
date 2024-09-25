@@ -205,3 +205,60 @@ def update_delivery(request, delivery_id):
         'delivery_name': selected_delivery.name,
         'vat_amount': float(calculations['vat_amount'])
     })
+
+
+def add_delivery(request):
+    if request.method == 'POST':
+        form = DeliveryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Delivery method added successfully!")
+            return redirect('delivery_list') 
+    else:
+        form = DeliveryForm()
+
+    context = {
+        'form': form,
+        'title': 'Add Delivery Method',
+        'edit_mode': False,
+    }
+    return render(request, 'checkout/delivery_form.html', context)
+
+def edit_delivery(request, delivery_id):
+    delivery = get_object_or_404(Delivery, id=delivery_id)
+    if request.method == 'POST':
+        form = DeliveryForm(request.POST, instance=delivery)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Delivery method updated successfully!")
+            return redirect('delivery_list')
+    else:
+        form = DeliveryForm(instance=delivery)
+
+    context = {
+        'form': form,
+        'title': 'Edit Delivery Method',
+        'edit_mode': True,
+        'delivery': delivery,
+    }
+    return render(request, 'checkout/delivery_form.html', context)
+
+def delete_delivery(request, delivery_id):
+    """A view to delete a delivery method."""
+    delivery = get_object_or_404(Delivery, id=delivery_id)
+
+    if request.method == 'POST':
+        delivery.delete()
+        messages.success(request, "Delivery method deleted successfully!")
+
+        return redirect('delivery_list')
+
+    return HttpResponse(status=405)
+
+
+def list_deliveries(request):
+    deliveries = Delivery.objects.all()
+    context = {
+        'deliveries': deliveries,
+    }
+    return render(request, 'checkout/list_deliveries.html', context)

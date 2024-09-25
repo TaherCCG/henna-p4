@@ -73,6 +73,41 @@ class OrderForm(forms.ModelForm):
         self.fields['delivery_method'].empty_label = None
 
         
-#  Refrences:
-#  Django Working with Forms: https://docs.djangoproject.com/en/5.1/topics/forms/#working-with-forms
-#  Accept a payment using Stripe Elements: https://docs.stripe.com/payments/accept-a-payment-charges#set-up-stripe-elements
+class DeliveryForm(forms.ModelForm):
+    """
+    Form for creating and updating delivery methods.
+    """
+
+    class Meta:
+        model = Delivery
+        fields = (
+            'company_name', 'name', 'details', 'cost', 'estimated_delivery_time', 'active'
+        )
+
+    def __init__(self, *args, **kwargs):
+        """
+        Initialise the form, adding placeholders and custom classes.
+        """
+        super().__init__(*args, **kwargs)
+
+        placeholders = {
+            'company_name': 'Company Name',
+            'name': 'Delivery Type Name',
+            'details': 'Details about Delivery',
+            'cost': 'Cost (£)',
+            'estimated_delivery_time': 'Estimated Delivery Time',
+        }
+
+        # Set placeholders and classes
+        for field in self.fields:
+            if field in placeholders:
+                placeholder = placeholders[field]
+                if self.fields[field].required:
+                    placeholder += ' *'
+                self.fields[field].widget.attrs['placeholder'] = placeholder
+                self.fields[field].widget.attrs['class'] = 'stripe-style-input'
+                self.fields[field].label = False
+
+# References:
+# Django Working with Forms: https://docs.djangoproject.com/en/5.1/topics/forms/#working-with-forms
+# Accept a payment using Stripe Elements: https://docs.stripe.com/payments/accept-a-payment-charges#set-up-stripe-elements
