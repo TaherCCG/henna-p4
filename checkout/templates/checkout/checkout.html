@@ -111,6 +111,20 @@
                         {{ order_form.town_or_city|as_crispy_field }}
                         {{ order_form.postcode|as_crispy_field }}
                         {{ order_form.country|as_crispy_field }}
+                    
+                        <div class="form-check form-check-inline float-end me-0">
+                            {% if user.is_authenticated %}
+                                <input class="form-check-input ms-2 me-0" type="checkbox" id="id-save-info" name="save-info" checked>
+                                <label class="form-check-label" for="id-save-info">
+                                    Save this delivery information to my profile
+                                </label>
+                            {% else %}
+                                <label class="form-check-label" for="id-save-info">
+                                    <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or 
+                                    <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
+                                </label>
+                            {% endif %}
+                        </div>
                     </fieldset>
 
                     <!-- Delivery Method Fieldset -->
