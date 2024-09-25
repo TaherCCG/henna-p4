@@ -10,7 +10,7 @@ if os.path.exists("env.py"):
 # Basic Django settings
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 DEBUG = 'DEVELOPMENT' in os.environ
-ALLOWED_HOSTS = ['henna-p4-e4f7804d3043.herokuapp.com', ""]
+ALLOWED_HOSTS = ['8000-taherccg-hennap4-4telli2ywmt.ws.codeinstitute-ide.net', ""]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -149,24 +149,16 @@ if 'USE_AWS' in os.environ:
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = 'eu-west-2'  # Adjust this if needed
+    AWS_S3_REGION_NAME = 'eu-west-2'
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
-    # S3 object parameters
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400',
-    }
-
-    # S3 settings for static and media files
-    AWS_DEFAULT_ACL = 'public-read'  # Makes files publicly accessible
-    AWS_S3_FILE_OVERWRITE = False  # Prevents overwriting files with the same name
-    AWS_IS_GZIPPED = True  # Enables gzip compression
+    AWS_S3_SIGNATURE - 's3v4'
+    AWS_DEFAULT_ACL = None  
+    AWS_S3_FILE_OVERWRITE = False  
+    AWS_S3_VERITY = True 
     GZIP_CONTENT_TYPES = (
         'text/css',
-        'text/javascript',
-        'application/javascript',
-        'application/x-javascript',
-        'image/svg+xml',
+        'text/javascript'
     )
 
     # Configure file storage using Django storage API

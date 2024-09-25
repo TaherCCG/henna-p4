@@ -22,9 +22,16 @@ class StripeWH_Handler:
         """Handle the payment_intent.succeeded webhook from Stripe"""
         intent = event.data.object
         pid = intent.id
-        cart = intent.metadata.cart
-        save_info = intent.metadata.save_info
-        delivery_method_id = intent.metadata.get('delivery_method_id')
+
+        # Check if metadata exists and get the cart and save_info
+        metadata = intent.get('metadata', {})
+        cart = metadata.get('cart', None)
+        save_info = metadata.get('save_info', False)
+        delivery_method_id = metadata.get('delivery_method_id', None)
+
+        if not cart:
+            logger.error('Cart information is missing from the PaymentIntent metadata')
+            return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: Cart metadata missing', status=400)
 
         billing_details = intent.charges.data[0].billing_details
         shipping_details = intent.shipping
@@ -35,13 +42,16 @@ class StripeWH_Handler:
             if value == "":
                 shipping_details.address[field] = None
 
+        # Get delivery cost based on delivery method ID
         delivery_cost = self.get_delivery_cost(delivery_method_id)
 
+        # Check if the order already exists
         order_exists = self.check_order_exists(shipping_details, billing_details, cart, pid, grand_total_with_vat)
 
         if order_exists:
             return HttpResponse(content=f'Webhook received: {event["type"]} | SUCCESS: Verified order already in database', status=200)
 
+        # Create the order if it doesn't exist
         order = self.create_order(shipping_details, billing_details, cart, pid, delivery_cost)
         if not order:
             return HttpResponse(content=f'Webhook received: {event["type"]} | ERROR: Order creation failed', status=500)
@@ -50,6 +60,10 @@ class StripeWH_Handler:
 
     def get_delivery_cost(self, delivery_method_id):
         """Retrieve delivery cost based on delivery method ID"""
+        if delivery_method_id is None:
+            logger.error('No delivery method ID provided')
+            return Decimal('0.00')
+
         try:
             delivery_method = Delivery.objects.get(id=delivery_method_id)
             return Decimal(delivery_method.cost)
