@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django.utils import timezone
-from .models import HennaProduct, ProductsCategory
+from .models import HennaProduct, ProductsCategory, Discount
+from .forms import ProductForm, DiscountForm
 
 def all_products(request):
     """A view to show all products, including sorting and search queries."""
@@ -30,7 +31,7 @@ def all_products(request):
                 if direction == 'desc':
                     sortkey = f'-{sortkey}'
             products = products.order_by(sortkey)
-            
+
         if 'category' in request.GET:
             categories = request.GET['category'].split(',')
             products = products.filter(category__name__in=categories)
@@ -41,11 +42,10 @@ def all_products(request):
             if not query:
                 messages.error(request, "You didn't enter any search criteria!")
                 return redirect(reverse('products'))
-            
+
             queries = Q(name__icontains=query) | Q(description__icontains=query)
             products = products.filter(queries)
 
-        # Filter by discounted items  Ref: https://docs.djangoproject.com/en/5.1/topics/db/queries/#field-lookups
         if discounted:
             products = products.filter(
                 discounts__active=True,
@@ -71,7 +71,6 @@ def product_detail(request, product_id):
     product = get_object_or_404(HennaProduct, pk=product_id)
     discounted_price = product.get_discounted_price()
 
-    # Get the currently active discount
     discount_name = None
     current_discount = product.get_current_discount()
     if current_discount:
@@ -84,3 +83,93 @@ def product_detail(request, product_id):
     }
 
     return render(request, 'products/product_detail.html', context)
+
+
+def add_product(request):
+    """A view to add a new product."""
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product added successfully!')
+            return redirect('products')
+    else:
+        form = ProductForm()
+    
+    return render(request, 'products/product_form.html', {'form': form, 'title': 'Add Product'})
+
+
+def edit_product(request, product_id):
+    """A view to edit an existing product."""
+
+    product = get_object_or_404(HennaProduct, pk=product_id)
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product updated successfully!')
+            return redirect('products')
+    else:
+        form = ProductForm(instance=product)
+    
+    return render(request, 'products/product_form.html', {'form': form, 'title': 'Edit Product'})
+
+
+def delete_product(request, product_id):
+    """A view to delete a product."""
+
+    product = get_object_or_404(HennaProduct, pk=product_id)
+
+    if request.method == 'POST':
+        product.delete()
+        messages.success(request, 'Product deleted successfully!')
+        return redirect('products')
+
+    return render(request, 'products/product_confirm_delete.html', {'product': product})
+
+
+def add_discount(request):
+    """A view to add a new discount."""
+
+    if request.method == 'POST':
+        form = DiscountForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Discount added successfully!')
+            return redirect('products')
+    else:
+        form = DiscountForm()
+    
+    return render(request, 'products/discount_form.html', {'form': form, 'title': 'Add Discount'})
+
+
+def edit_discount(request, discount_id):
+    """A view to edit an existing discount."""
+
+    discount = get_object_or_404(Discount, pk=discount_id)
+
+    if request.method == 'POST':
+        form = DiscountForm(request.POST, instance=discount)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Discount updated successfully!')
+            return redirect('products')
+    else:
+        form = DiscountForm(instance=discount)
+
+    return render(request, 'products/discount_form.html', {'form': form, 'title': 'Edit Discount'})
+
+
+def delete_discount(request, discount_id):
+    """A view to delete a discount."""
+
+    discount = get_object_or_404(Discount, pk=discount_id)
+
+    if request.method == 'POST':
+        discount.delete()
+        messages.success(request, 'Discount deleted successfully!')
+        return redirect('products')
+
+    return render(request, 'products/discount_confirm_delete.html', {'discount': discount})
