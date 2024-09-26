@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'cart',
     'checkout',
     'profiles',
-    'store_admin',
     'crispy_forms',
     'crispy_bootstrap5',
     'storages',
@@ -154,7 +153,7 @@ if 'USE_AWS' in os.environ:
     AWS_S3_REGION_NAME = 'eu-west-2'
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
-    AWS_S3_SIGNATURE - 's3v4'
+    AWS_S3_SIGNATURE = 's3v4'
     AWS_DEFAULT_ACL = None  
     AWS_S3_FILE_OVERWRITE = False  
     AWS_S3_VERITY = True 
