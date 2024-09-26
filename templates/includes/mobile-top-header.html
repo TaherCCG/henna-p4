@@ -32,7 +32,7 @@
         <ul class="dropdown-menu border-0" aria-labelledby="user-options">
             {% if request.user.is_authenticated %}
                 {% if request.user.is_superuser %}
-                    <li><a href="{% url 'dashboard' %}" class="dropdown-item">Dashboard</a></li>
+                    <li><a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#adminWarningModal">Dashboard</a></li>        
                 {% endif %}
                 <li><a href="{% url 'profile' %}" class="dropdown-item">My Profile</a></li> 
                 <li><a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a></li>
