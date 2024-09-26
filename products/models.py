@@ -18,6 +18,9 @@ class ProductsCategory(models.Model):
         return self.friendly_name or self.name
 
 
+from django.core.exceptions import ValidationError
+from django.db import models
+
 class Discount(models.Model):
     """
     Model representing a discount that can be applied to products.
@@ -35,17 +38,23 @@ class Discount(models.Model):
     end_date = models.DateTimeField(null=True, blank=True)
     active = models.BooleanField(default=True)
 
+    def clean(self):
+        """Validate the discount value to ensure it is not negative."""
+        if self.value < 0:
+            raise ValidationError('Discount value cannot be negative.')
+
+    def save(self, *args, **kwargs):
+        """Override save to call clean method before saving."""
+        self.full_clean()  # This will call clean method
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name} ({self.get_discount_type_display()})"
 
     def is_active(self):
-        """
-        Check if the discount is currently active based on the active status and date range.
-        """
+        """Check if the discount is active and within its date range."""
         now = timezone.now()
-        if self.active and (not self.start_date or self.start_date <= now) and (not self.end_date or self.end_date >= now):
-            return True
-        return False
+        return self.active and (self.start_date is None or self.start_date <= now) and (self.end_date is None or self.end_date >= now)
 
 
 class HennaProduct(models.Model):
