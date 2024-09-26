@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="overlay"></div>
+<div class="container mt-5">
+    <h1 class="mb-4">Store Management Dashboard</h1>
+    <div class="row">
+        <div class="col-md-3">
+            <a href="{% url 'manage_products' %}" class="btn btn-primary btn-block">Manage Products</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'manage_discounts' %}" class="btn btn-secondary btn-block">Manage Discounts</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'manage_delivery' %}" class="btn btn-success btn-block">Manage Delivery</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'manage_orders' %}" class="btn btn-info btn-block">Manage Orders</a>
+        </div>
+        <div class="col-md-3 mt-3">
+            <a href="{% url 'manage_users' %}" class="btn btn-warning btn-block">Manage Users</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

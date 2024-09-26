@@ -32,9 +32,10 @@ INSTALLED_APPS = [
     'cart',
     'checkout',
     'profiles',
+    'store_admin',
     'crispy_forms',
     'crispy_bootstrap5',
-    'storages',  # Added for S3 storage
+    'storages',
 ]
 
 MIDDLEWARE = [
