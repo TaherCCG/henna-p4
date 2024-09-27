@@ -59,53 +59,49 @@
                         </p>
                     </div>
                 </div>
-                
+                <!-- Products card -->
                 <div class="row mt-1 mb-2 g-4">
                     {% for product in products %}
                         <div class="col-6 col-md-4 col-lg-3">
-                            <div class="card h-100 product-card border-0 shadow-sm">
-                                {% if product.image %}
-                                    <a href="{% url 'product_detail' product.id %}">
+                            <a href="{% url 'product_detail' product.id %}" class="text-decoration-none">
+                                <div class="card h-100 product-card border-0 shadow-sm">
+                                    {% if product.image %}
                                         <img class="card-img-top img-fluid product-img" src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
-                                    </a>
-                                {% else %}
-                                    <a href="{% url 'product_detail' product.id %}">
+                                    {% else %}
                                         <img class="card-img-top img-fluid product-img" src="{% static 'noimage.png' %}" alt="{{ product.name }}">
-                                    </a>
-                                {% endif %}
-                                <div class="card-body product-info pb-0">
-                                    <p class="product-title mb-2">{{ product.name }}</p>
-                                </div>
-                                <div class="card-footer bg-white pt-0 border-0 text-left">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="price-wrapper d-flex align-items-center">
-                                                {% if product.get_current_discount %}
-                                                    <p class="discounted-price lead mb-0 font-weight-bold">£{{ product.get_discounted_price|floatformat:2 }}</p>
-                                                    <p class="original-price text-muted mb-0 ms-2"><s>£{{ product.price|floatformat:2 }}</s></p>
+                                    {% endif %}
+                                    <div class="card-body product-info pb-0">
+                                        <p class="product-title mb-2">{{ product.name }}</p>
+                                    </div>
+                                    <div class="card-footer bg-white pt-0 border-0 text-left">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="price-wrapper d-flex align-items-center">
+                                                    {% if product.get_current_discount %}
+                                                        <p class="discounted-price lead mb-0 font-weight-bold">£{{ product.get_discounted_price|floatformat:2 }}</p>
+                                                        <p class="original-price text-muted mb-0 ms-2"><s>£{{ product.price|floatformat:2 }}</s></p>
+                                                    {% else %}
+                                                        <p class="lead mb-0 text-left font-weight-bold">£{{ product.price|floatformat:2 }}</p>
+                                                    {% endif %}
+                                                </div>
+                                                {% if product.category %}
+                                                    <p class="small mt-1 mb-0">
+                                                        <i class="fas fa-tag me-1"></i>{{ product.category.friendly_name }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if product.rating %}
+                                                    <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
                                                 {% else %}
-                                                    <p class="lead mb-0 text-left font-weight-bold">£{{ product.price|floatformat:2 }}</p>
+                                                    <small class="text-muted">No Rating</small>
                                                 {% endif %}
                                             </div>
-                                            {% if product.category %}
-                                                <p class="small mt-1 mb-0">
-                                                    <a class="text-muted text-decoration-none" href="{% url 'products' %}?category={{ product.category.name }}">
-                                                        <i class="fas fa-tag me-1"></i>{{ product.category.friendly_name }}
-                                                    </a>
-                                                </p>
-                                            {% endif %}
-                                            {% if product.rating %}
-                                                <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
-                                            {% else %}
-                                                <small class="text-muted">No Rating</small>
-                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     {% endfor %}
-                </div>
+                </div>                
             </div>
         </div>
     </div>
@@ -113,49 +109,10 @@
         <a href="#" class="btt-link d-flex">
             <i class="fas fa-arrow-up"></i>
         </a>
-    </div>
+    </div>    
 {% endblock %}
 
 {% block postloadjs %}
     {{ block.super }}
-    <script type="text/javascript">
-        $(document).ready(function() {
-            // Debugging: Check if the .btt-link element is found
-            console.log('Script Loaded');
-            
-            // Scroll to top when .btt-link is clicked
-            $(document).on('click', '.btt-link', function(e) {
-                e.preventDefault(); 
-                console.log('btt-link clicked');
-                window.scrollTo(0, 0);
-            });
-    
-            // Handle sorting change
-            $('#sort-selector').change(function() {
-                var selector = $(this);
-                var currentUrl = new URL(window.location);
-                var selectedVal = selector.val();
-
-                // Update the selected option visually
-                selector.find('option').each(function() {
-                    if (this.value === selectedVal) {
-                        $(this).prop('selected', true);
-                    } else {
-                        $(this).prop('selected', false);
-                    }
-                });
-            
-                if (selectedVal !== "reset") {
-                    var [sort, direction] = selectedVal.split("_");
-                    currentUrl.searchParams.set("sort", sort);
-                    currentUrl.searchParams.set("direction", direction);
-                    window.location.replace(currentUrl);
-                } else {
-                    currentUrl.searchParams.delete("sort");
-                    currentUrl.searchParams.delete("direction");
-                    window.location.replace(currentUrl);
-                }
-            });
-        });
-    </script>
+    <script type="text/javascript" src="{% static 'products/js/back_to_top.js' %}"></script>
 {% endblock %}
