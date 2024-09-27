@@ -10,7 +10,7 @@ if os.path.exists("env.py"):
 # Basic Django settings
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 DEBUG = 'DEVELOPMENT' in os.environ
-ALLOWED_HOSTS = ['henna.herokuapp.com', ".codeinstitute-ide.net", ]
+ALLOWED_HOSTS = ['henna-9c8a6d07b833.herokuapp.com/', ".codeinstitute-ide.net", ]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
