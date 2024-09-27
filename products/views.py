@@ -34,8 +34,8 @@ def all_products(request):
 
         if 'category' in request.GET:
             categories = request.GET['category'].split(',')
-            products = products.filter(category__name__in=categories)
-            categories = ProductsCategory.objects.filter(name__in=categories)
+            products = products.filter(category__friendly_name__in=categories)
+            categories = ProductsCategory.objects.filter(friendly_name__in=categories).order_by('friendly_name')
 
         if 'q' in request.GET:
             query = request.GET['q']

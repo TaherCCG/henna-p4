@@ -91,11 +91,18 @@ class HennaProduct(models.Model):
     def get_discounted_price(self):
         """
         Calculate the discounted price of the product, if any active discount applies.
+        The minimum price is set to £0.99 regardless of discount.
         """
         discount = self.get_current_discount()
         if discount:
             if discount.discount_type == 'percentage':
-                return self.price * (1 - (discount.value / 100))
+                discounted_price = self.price * (1 - (discount.value / 100))
             elif discount.discount_type == 'fixed':
-                return max(self.price - discount.value, 0)
-        return self.price
+                discounted_price = self.price - discount.value
+            else:
+                discounted_price = self.price
+        else:
+            discounted_price = self.price
+        
+        # Ensure the discounted price does not go below £0.99
+        return max(discounted_price, 0.99)
