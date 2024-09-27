@@ -1,7 +1,7 @@
 from django.contrib.admin import AdminSite, ModelAdmin, register
 from django.contrib import admin
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User, Group  
 
 # Importing models from other apps
 from products.models import HennaProduct, ProductsCategory, Discount
@@ -13,7 +13,15 @@ class CustomAdminSite(AdminSite):
     site_title = "Henna Store Admin"
     index_title = "Welcome to the Henna Store Admin"
 
-custom_admin_site = CustomAdminSite(name='custom_admin')
+    def get_app_list(self, request):
+        app_list = super().get_app_list(request)
+        
+        # Create a separate 'Users and Groups' section
+        for app in app_list:
+            if app['name'] == 'Authentication and Authorization':
+                app['name'] = 'Users and Groups'
+                
+        return app_list
 
 class DiscountInline(admin.TabularInline):
     model = HennaProduct.discounts.through
@@ -157,6 +165,10 @@ class UserProfileAdmin(ModelAdmin):
                        'default_postcode', 'default_county', 'default_country')
         }),
     )
+
+# Register User and Group under a separate tab
+custom_admin_site.register(User)
+custom_admin_site.register(Group)
 
 # Unregister existing models before registering them with custom admin site
 admin.site.unregister(HennaProduct)
