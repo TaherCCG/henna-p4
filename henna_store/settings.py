@@ -10,7 +10,7 @@ if os.path.exists("env.py"):
 # Basic Django settings
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 DEBUG = 'DEVELOPMENT' in os.environ
-ALLOWED_HOSTS = ['8000-taherccg-hennap4-4telli2ywmt.ws.codeinstitute-ide.net', ""]
+ALLOWED_HOSTS = ['henna-p4-e4f7804d3043.herokuapp.com', ""]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -90,7 +90,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-taherccg-hennap4-4telli2ywmt.ws.codeinstitute-ide.net',
+    'https://henna-p4-e4f7804d3043.herokuapp.com/',
 ]
 
 WSGI_APPLICATION = 'henna_store.wsgi.application'
