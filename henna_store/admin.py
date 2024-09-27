@@ -1,4 +1,4 @@
-from django.contrib.admin import AdminSite, ModelAdmin, register
+from django.contrib.admin import AdminSite, ModelAdmin
 from django.contrib import admin
 from django.utils.html import format_html
 from django.contrib.auth.models import User, Group  
@@ -27,7 +27,6 @@ class DiscountInline(admin.TabularInline):
     model = HennaProduct.discounts.through
     extra = 1
 
-@register(HennaProduct)
 class HennaProductAdmin(ModelAdmin):
     list_display = (
         'sku',
@@ -78,15 +77,11 @@ class HennaProductAdmin(ModelAdmin):
     get_discounted_price.short_description = 'Discounted Price'
 
     def display_image(self, obj):
-        """
-        Display image thumbnail in the admin list view.
-        """
         if obj.image:
             return format_html('<img src="{}" width="50" height="50" />', obj.image.url)
         return 'No Image'
     display_image.short_description = 'Image'
 
-@register(ProductsCategory)
 class ProductsCategoryAdmin(ModelAdmin):
     list_display = ('friendly_name', 'name')
     search_fields = ('name', 'friendly_name')
@@ -97,7 +92,6 @@ class ProductsCategoryAdmin(ModelAdmin):
         }),
     )
 
-@register(Discount)
 class DiscountAdmin(ModelAdmin):
     list_display = ('name', 'discount_type', 'value', 'start_date', 'end_date', 'active', 'is_active_now')
     search_fields = ('name',)
@@ -114,7 +108,6 @@ class DiscountAdmin(ModelAdmin):
         }),
     )
 
-@register(Delivery)
 class DeliveryAdmin(ModelAdmin):
     list_display = ('name', 'company_name', 'cost', 'active', 'estimated_delivery_time')
     search_fields = ('name', 'company_name')
@@ -126,7 +119,6 @@ class DeliveryAdmin(ModelAdmin):
         }),
     )
 
-@register(Order)
 class OrderAdmin(ModelAdmin):
     list_display = ('order_number', 'full_name', 'email', 'order_total', 'grand_total', 'date')
     search_fields = ('order_number', 'full_name', 'email')
@@ -143,7 +135,6 @@ class OrderAdmin(ModelAdmin):
         }),
     )
 
-@register(OrderItem)
 class OrderItemAdmin(ModelAdmin):
     list_display = ('order', 'product', 'quantity', 'price_at_order')
     search_fields = ('order__order_number', 'product__name')
@@ -154,7 +145,6 @@ class OrderItemAdmin(ModelAdmin):
         }),
     )
 
-@register(UserProfile)
 class UserProfileAdmin(ModelAdmin):
     list_display = ('user', 'default_phone_number', 'default_town_or_city', 'default_country')
     search_fields = ('user__username', 'default_phone_number', 'default_town_or_city')
@@ -166,11 +156,7 @@ class UserProfileAdmin(ModelAdmin):
         }),
     )
 
-# Register User and Group under a separate tab
-custom_admin_site.register(User)
-custom_admin_site.register(Group)
-
-# Unregister existing models before registering them with custom admin site
+# Unregister existing models from the default admin site
 admin.site.unregister(HennaProduct)
 admin.site.unregister(ProductsCategory)
 admin.site.unregister(Discount)
@@ -180,6 +166,8 @@ admin.site.unregister(OrderItem)
 admin.site.unregister(UserProfile)
 
 # Register models with custom admin site
+custom_admin_site = CustomAdminSite(name='custom_admin')
+
 custom_admin_site.register(HennaProduct, HennaProductAdmin)
 custom_admin_site.register(ProductsCategory, ProductsCategoryAdmin)
 custom_admin_site.register(Discount, DiscountAdmin)
@@ -187,3 +175,7 @@ custom_admin_site.register(Delivery, DeliveryAdmin)
 custom_admin_site.register(Order, OrderAdmin)
 custom_admin_site.register(OrderItem, OrderItemAdmin)
 custom_admin_site.register(UserProfile, UserProfileAdmin)
+
+# Register User and Group under a separate tab
+custom_admin_site.register(User)
+custom_admin_site.register(Group)
