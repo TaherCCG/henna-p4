@@ -1,5 +1,6 @@
 from django.contrib.admin import AdminSite, ModelAdmin, register
 from django.contrib import admin
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 # Importing models from other apps
@@ -14,27 +15,74 @@ class CustomAdminSite(AdminSite):
 
 custom_admin_site = CustomAdminSite(name='custom_admin')
 
+class DiscountInline(admin.TabularInline):
+    model = HennaProduct.discounts.through
+    extra = 1
+
 @register(HennaProduct)
 class HennaProductAdmin(ModelAdmin):
-    list_display = ('name', 'sku', 'category', 'price', 'is_available', 'date_added')
-    search_fields = ('name', 'sku', 'category__name')
-    list_filter = ('is_available', 'category')
-    ordering = ('-date_added',)
+    list_display = (
+        'sku',
+        'name',
+        'category',
+        'price',
+        'get_discounted_price',
+        'rating',
+        'stock_quantity',
+        'is_available',
+        'date_added',
+        'display_image',
+    )
+    ordering = ('sku',)
+    search_fields = (
+        'name',
+        'sku',
+        'description',
+        'category__name',
+    )
+    list_filter = (
+        'category',
+        'is_available',
+        'date_added',
+    )
+    inlines = [DiscountInline]
+    date_hierarchy = 'date_added'
+    actions = ['mark_as_unavailable']
+
+    def mark_as_unavailable(self, request, queryset):
+        queryset.update(is_available=False)
+    mark_as_unavailable.short_description = 'Mark selected products as unavailable'
+
     fieldsets = (
         (None, {
-            'fields': ('name', 'sku', 'category', 'description', 'price', 
-                       'stock_quantity', 'is_available', 'image_url', 'image')
+            'fields': ('sku', 'name', 'category')
+        }),
+        ('Pricing and Availability', {
+            'fields': ('price', 'rating', 'stock_quantity', 'is_available'),
         }),
         ('Additional Information', {
-            'fields': ('rating', 'date_added'),
-            'classes': ('collapse',),
+            'fields': ('date_added', 'description', 'image', 'image_url'),
         }),
     )
 
+    def get_discounted_price(self, obj):
+        return obj.get_discounted_price()
+    get_discounted_price.short_description = 'Discounted Price'
+
+    def display_image(self, obj):
+        """
+        Display image thumbnail in the admin list view.
+        """
+        if obj.image:
+            return format_html('<img src="{}" width="50" height="50" />', obj.image.url)
+        return 'No Image'
+    display_image.short_description = 'Image'
+
 @register(ProductsCategory)
 class ProductsCategoryAdmin(ModelAdmin):
-    list_display = ('name', 'friendly_name')
-    search_fields = ('name',)
+    list_display = ('friendly_name', 'name')
+    search_fields = ('name', 'friendly_name')
+    prepopulated_fields = {'friendly_name': ('name',)}
     fieldsets = (
         (None, {
             'fields': ('name', 'friendly_name')
@@ -43,9 +91,15 @@ class ProductsCategoryAdmin(ModelAdmin):
 
 @register(Discount)
 class DiscountAdmin(ModelAdmin):
-    list_display = ('name', 'discount_type', 'value', 'active', 'start_date', 'end_date')
-    list_filter = ('discount_type', 'active')
+    list_display = ('name', 'discount_type', 'value', 'start_date', 'end_date', 'active', 'is_active_now')
     search_fields = ('name',)
+    list_filter = ('discount_type', 'active')
+
+    def is_active_now(self, obj):
+        return obj.is_active()
+    is_active_now.boolean = True
+    is_active_now.short_description = 'Currently Active'
+
     fieldsets = (
         (None, {
             'fields': ('name', 'discount_type', 'value', 'start_date', 'end_date', 'active')
