@@ -1,7 +1,15 @@
+"""
+Django settings for the Henna store project.
+
+This module contains the basic configuration for the project,
+including installed apps, middleware, database settings, and
+third-party integrations (e.g., Stripe and AWS).
+"""
+
 import os
-import dj_database_url
 from decimal import Decimal
 from pathlib import Path
+import dj_database_url  # Django database URL utilities
 
 # Load environment variables from env.py if it exists
 if os.path.exists("env.py"):
@@ -10,9 +18,12 @@ if os.path.exists("env.py"):
 # Basic Django settings
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 DEBUG = 'DEVELOPMENT' in os.environ
-ALLOWED_HOSTS = ['henna-9c8a6d07b833.herokuapp.com', ".codeinstitute-ide.net", ]
+ALLOWED_HOSTS = [
+    'henna-9c8a6d07b833.herokuapp.com',
+    ".codeinstitute-ide.net",
+]
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project like this: BASE_DIR / 'subdir'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Application definition
@@ -54,7 +65,7 @@ ROOT_URLCONF = 'henna_store.urls'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-# Templates
+# Templates settings
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -80,32 +91,36 @@ TEMPLATES = [
     },
 ]
 
+# Session message storage settings
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
+# Authentication backends
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+# Allauth site ID configuration
 SITE_ID = 1
 
+# Trusted origins for CSRF protection
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-taherccg-hennap4-4telli2ywmt.ws.codeinstitute-ide.net',
 ]
 
+# WSGI application path
 WSGI_APPLICATION = 'henna_store.wsgi.application'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+# Allauth settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
-# Database settings
+# Database settings based on environment
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
@@ -118,7 +133,7 @@ else:
         }
     }
 
-# Password validation
+# Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -135,7 +150,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalisation settings
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-gb'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
@@ -143,50 +158,61 @@ USE_TZ = True
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Static and media file paths
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# AWS S3 settings for static and media file storage
 if 'USE_AWS' in os.environ:
-     # Cache control
+    # Cache control
     AWS_S3_OBJECT_PARAMETERS = {
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'CacheControl': 'max-age=94608000',
     }
-    
-    # Bucket Config
+
+    # Bucket configuration
     AWS_STORAGE_BUCKET_NAME = 'henna-ccg'
     AWS_S3_REGION_NAME = 'eu-west-2'
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
-    # Static and media files
+    # Static and media files storage configuration
     STORAGES = {
         "default": {
             "BACKEND": "custom_storages.MediaStorage",
         },
         "staticfiles": {"BACKEND": "custom_storages.StaticStorage"},
     }
-    # STATICFILES_STORAGE = 'custom_storages.StaticStorage'
     STATICFILES_LOCATION = 'static'
-    # DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
     MEDIAFILES_LOCATION = 'media'
 
     # Override static and media URLs in production
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
-    
 
-# Other settings
+# Other project settings
 FREE_DELIVERY_THRESHOLD = 50
 VAT_RATE = Decimal('0.20')
 
-# Stripe settings
+# Stripe settings for payment processing
 STRIPE_CURRENCY = 'GBP'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
+
+# Email backend settings
+if 'DEVELOPMENT' in os.environ:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'hennastore@example.com'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASS')
+    DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
