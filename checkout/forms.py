@@ -1,5 +1,6 @@
 from django import forms
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from .models import Order, Delivery
 
 class OrderForm(forms.ModelForm):
@@ -72,7 +73,7 @@ class OrderForm(forms.ModelForm):
         self.fields['delivery_method'].widget.attrs['class'] = 'stripe-style-input'
         self.fields['delivery_method'].empty_label = None
 
-        
+
 class DeliveryForm(forms.ModelForm):
     """
     Form for creating and updating delivery methods.
@@ -108,6 +109,25 @@ class DeliveryForm(forms.ModelForm):
                 self.fields[field].widget.attrs['class'] = 'stripe-style-input'
                 self.fields[field].label = False
 
+    def clean_name(self):
+        """
+        Validate that the delivery type name is unique and cannot be changed for certain methods.
+        """
+        name = self.cleaned_data.get('name')
+
+        # Check if this is an update
+        if self.instance.pk:  # Ensure this is an update and not a new delivery method
+            current_name = Delivery.objects.get(pk=self.instance.pk).name
+            if current_name in ['Free Delivery', 'Standard Delivery'] and name != current_name:
+                raise ValidationError(
+                    "The name of 'Free Delivery' and 'Standard Delivery' cannot be changed as they are used in other functions."
+                )
+
+        # Check for uniqueness
+        if Delivery.objects.exclude(pk=self.instance.pk).filter(name=name).exists():
+            raise ValidationError(f"A delivery method with the name '{name}' already exists.")
+        
+        return name
 # References:
 # Django Working with Forms: https://docs.djangoproject.com/en/5.1/topics/forms/#working-with-forms
 # Accept a payment using Stripe Elements: https://docs.stripe.com/payments/accept-a-payment-charges#set-up-stripe-elements

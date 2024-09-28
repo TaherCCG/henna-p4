@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 from profiles.forms import UserProfileForm
-from .forms import OrderForm
+from .forms import OrderForm, DeliveryForm
 from .models import Delivery, Order, OrderItem, HennaProduct, UserProfile 
 from cart.contexts import cart_contents
 from .utils import calculate_delivery_cost_and_totals
@@ -230,7 +230,7 @@ def add_delivery(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Delivery method added successfully!")
-            return redirect('delivery_list') 
+            return redirect('list_deliveries')
     else:
         form = DeliveryForm()
 
@@ -248,7 +248,7 @@ def edit_delivery(request, delivery_id):
         if form.is_valid():
             form.save()
             messages.success(request, "Delivery method updated successfully!")
-            return redirect('delivery_list')
+            return redirect('list_deliveries')
     else:
         form = DeliveryForm(instance=delivery)
 
@@ -260,6 +260,7 @@ def edit_delivery(request, delivery_id):
     }
     return render(request, 'checkout/delivery_form.html', context)
 
+@require_POST
 def delete_delivery(request, delivery_id):
     """A view to delete a delivery method."""
     delivery = get_object_or_404(Delivery, id=delivery_id)
@@ -268,7 +269,7 @@ def delete_delivery(request, delivery_id):
         delivery.delete()
         messages.success(request, "Delivery method deleted successfully!")
 
-        return redirect('delivery_list')
+        return redirect('list_deliveries')
 
     return HttpResponse(status=405)
 
