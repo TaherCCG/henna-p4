@@ -20,8 +20,13 @@ import json
 stripe_public_key = settings.STRIPE_PUBLIC_KEY
 stripe_secret_key = settings.STRIPE_SECRET_KEY
 
+
 @require_POST
 def cache_checkout_data(request):
+    """
+    A view to handle the caching of checkout data before payment processing.
+    Modifies the Stripe PaymentIntent to store cart and user metadata.
+    """
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = stripe_secret_key
@@ -35,10 +40,11 @@ def cache_checkout_data(request):
         messages.error(request, 'Sorry, your payment cannot be processed right now. Please try again later.')
         return HttpResponse(content=e, status=400)
 
+
 def checkout(request):
     """
     Display the checkout form and calculate delivery costs based on the user's cart.
-    Handles form submission for order processing.
+    Handles form submission for order processing, including Stripe payment integration.
     """
     current_cart = cart_contents(request)
     cart = request.session.get('cart', {})
@@ -86,7 +92,7 @@ def checkout(request):
                 profile.default_street_address1 = request.POST.get('street_address1', profile.default_street_address1)
                 profile.default_street_address2 = request.POST.get('street_address2', profile.default_street_address2)
                 profile.default_county = request.POST.get('county', profile.default_county)
-                profile.save()  # Save updated profile
+                profile.save()
 
             for item in current_cart['cart_items']:
                 try:
@@ -146,21 +152,20 @@ def checkout(request):
 
     return render(request, 'checkout/checkout.html', context)
 
+
 def checkout_success(request, order_number):
     """
-    Handle successful checkouts and display the order confirmation.
+    Handle successful checkouts by displaying order confirmation and sending a confirmation email.
+    Updates user profile if 'save_info' is selected.
     """
     save_info = request.session.get('save-info')
     order = get_object_or_404(Order, order_number=order_number)
 
-    # Check if the user is authenticated
     if request.user.is_authenticated:
         profile = UserProfile.objects.get(user=request.user)
-        # Attach the user's profile to the order
         order.user_profile = profile
         order.save()
 
-        # If 'save_info' is checked, update the user's profile
         if save_info:
             profile.default_phone_number = order.phone_number
             profile.default_country = order.country
@@ -169,16 +174,14 @@ def checkout_success(request, order_number):
             profile.default_street_address1 = order.street_address1
             profile.default_street_address2 = order.street_address2
             profile.default_county = order.county
-            profile.save()  # Save updated profile
+            profile.save()
 
-    # Prepare email content
     subject = f'Order Confirmation: {order_number}'
     html_message = render_to_string('checkout/order_confirmation_email.html', {'order': order})
     plain_message = strip_tags(html_message)
     from_email = settings.DEFAULT_FROM_EMAIL
-    to_email = order.email  # Use the email provided in the order
+    to_email = order.email
 
-    # Send the email
     send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
 
     messages.success(request, 
@@ -199,7 +202,6 @@ def checkout_success(request, order_number):
 def update_delivery(request, delivery_id):
     """
     Update the delivery cost and grand total when the user selects a different delivery method.
-    Returns the updated values as JSON.
     """
     cart = request.session.get('cart', {})
     current_cart = cart_contents(request)
@@ -225,6 +227,10 @@ def update_delivery(request, delivery_id):
 
 
 def add_delivery(request):
+    """
+    Add a new delivery method through the delivery form.
+    Handles form submission for adding delivery methods.
+    """
     if request.method == 'POST':
         form = DeliveryForm(request.POST)
         if form.is_valid():
@@ -241,7 +247,11 @@ def add_delivery(request):
     }
     return render(request, 'checkout/delivery_form.html', context)
 
+
 def edit_delivery(request, delivery_id):
+    """
+    Handles form submission for updating delivery methods.
+    """
     delivery = get_object_or_404(Delivery, id=delivery_id)
     if request.method == 'POST':
         form = DeliveryForm(request.POST, instance=delivery)
@@ -260,21 +270,26 @@ def edit_delivery(request, delivery_id):
     }
     return render(request, 'checkout/delivery_form.html', context)
 
+
 @require_POST
 def delete_delivery(request, delivery_id):
-    """A view to delete a delivery method."""
+    """
+    Handles form submission for deleting delivery methods.
+    """
     delivery = get_object_or_404(Delivery, id=delivery_id)
 
     if request.method == 'POST':
         delivery.delete()
         messages.success(request, "Delivery method deleted successfully!")
-
         return redirect('list_deliveries')
 
     return HttpResponse(status=405)
 
 
 def list_deliveries(request):
+    """
+    List all available delivery methods.
+    """
     deliveries = Delivery.objects.all()
     context = {
         'deliveries': deliveries,
