@@ -4,6 +4,9 @@ from django.contrib import messages
 from django.conf import settings
 from decimal import Decimal, ROUND_HALF_UP
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 from profiles.forms import UserProfileForm
 from .forms import OrderForm
@@ -12,6 +15,7 @@ from cart.contexts import cart_contents
 from .utils import calculate_delivery_cost_and_totals
 import stripe
 import json
+
 
 stripe_public_key = settings.STRIPE_PUBLIC_KEY
 stripe_secret_key = settings.STRIPE_SECRET_KEY
@@ -167,7 +171,19 @@ def checkout_success(request, order_number):
             profile.default_county = order.county
             profile.save()  # Save updated profile
 
-    messages.success(request, f'Order successfully processed! Your order number is {order_number}. A confirmation email will be sent to {order.email}.')
+    # Prepare email content
+    subject = f'Order Confirmation: {order_number}'
+    html_message = render_to_string('checkout/order_confirmation_email.html', {'order': order})
+    plain_message = strip_tags(html_message)
+    from_email = settings.DEFAULT_FROM_EMAIL
+    to_email = order.email  # Use the email provided in the order
+
+    # Send the email
+    send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
+
+    messages.success(request, 
+                     f'Order successfully processed! Your order number is {order_number}. '
+                     'A confirmation email has been sent to your email address.')
 
     if 'cart' in request.session:
         del request.session['cart']
@@ -178,6 +194,7 @@ def checkout_success(request, order_number):
     }
 
     return render(request, template, context)
+
 
 def update_delivery(request, delivery_id):
     """

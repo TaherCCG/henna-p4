@@ -22,8 +22,8 @@
     <div class="container section-background">
         <div class="row mb-4">
             <div class="col text-center">
-                <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>{{
-                        order.email }}</strong>.</p>
+                <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>
+                    {{ order.email }}</strong>.</p>
             </div>
         </div>
 
@@ -90,29 +90,9 @@
 
                     <h5 class="text-muted">Billing Info:</h5>
                     <div class="row mb-2">
-                        <div class="col-6">
+                        <div class="col-6 text-md-right">
                             <p class="mb-0 text-black font-weight-bold">Order Total</p>
-                            <p class="mb-0">£{{ order.order_total|floatformat:2 }}</p>
-                        </div>
-                        <div class="col-6 text-md-right">
-                            <p class="mb-0 text-black font-weight-bold">Delivery</p>
-                            <p class="mb-0">£{{ order.delivery_cost|floatformat:2 }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6">
-                            <p class="mb-0 text-black font-weight-bold">VAT Amount</p>
-                            <p class="mb-0">£{{ order.vat_amount|floatformat:2 }}</p>
-                        </div>
-                        <div class="col-6 text-md-right">
-                            <p class="mb-0 text-black font-weight-bold">Grand Total</p>
                             <p class="mb-0">£{{ order.grand_total_with_vat|floatformat:2 }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-12">
-                            <p class="mb-0 text-black font-weight-bold">Delivery Method</p>
-                            <p class="mb-0">{{ order.delivery_method }} or {{ delivery_name }} or {{ order.delivery_method.name }}</p>
                         </div>
                     </div>
                 </div>

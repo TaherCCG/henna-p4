@@ -9,4 +9,3 @@ node_modules/
 cloudinary_python.txt
 *.sqlite3
 *.pyc
-test_s3_connection.py
