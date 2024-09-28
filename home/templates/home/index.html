@@ -29,13 +29,22 @@
     </div>
 
     <!-- CTA Banner -->
-    <section class="cta-banner">
-        <div class="container text-center py-2">
-            <h2 class="cta-heading decorative" aria-label="Sign Up Today and Get 10% Off Your First Order">Get 10% Off Your First Order or Booking!</h2>
-            <p class="text-dark fw-bold">Sign up today and enjoy an exclusive 10% discount on your first purchase or booking. Don't miss out on this special offer!</p>
-            <a href="#" class="btn cta-button btn-lg rounded-5 mt-2" aria-label="Sign Up Now">Sign Up Now</a>
-        </div>
-    </section>
+    {% if user.is_authenticated %}
+        <section class="cta-banner">
+            <div class="container text-center py-2">
+                <h2 class="cta-heading decorative" aria-label="Thank You for Being with Us!">Thank You for Being with Us!</h2>
+                <p class="text-dark fw-bold">We appreciate your support! Enjoy browsing our products.</p>
+            </div>
+        </section>
+    {% else %}
+        <section class="cta-banner">
+            <div class="container text-center py-2">
+                <h2 class="cta-heading decorative" aria-label="Sign Up Today and Get 10% Off Your First Order">Get 10% Off Your First Order!</h2>
+                <p class="text-dark fw-bold">Sign up today and enjoy an exclusive discounts!!</p>
+                <a href="{% url 'account_signup' %}" class="btn cta-button btn-lg rounded-5 mt-2" aria-label="Sign Up Now">Sign Up Now</a>
+            </div>
+        </section>
+    {% endif %}
 
     <!-- Featured Products Section -->
     <section class="section-background">
