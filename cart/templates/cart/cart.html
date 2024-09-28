@@ -119,7 +119,7 @@
                                     {% if free_delivery_delta > 0 %}
                                         <tr>
                                             <td colspan="7" class="text-danger text-end">
-                                                Spend <strong>£{{ free_delivery_delta }}</strong> more for free delivery!
+                                                Spend <strong>£{{ free_delivery_delta|floatformat:2 }}</strong> more for free delivery!
                                             </td>
                                         </tr>
                                     {% endif %}
