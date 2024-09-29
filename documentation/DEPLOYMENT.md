@@ -1,5 +1,3 @@
-Here’s the updated deployment guide for the Henna Store project, with the specified details removed:
-
 # Deployment Guide for Henna Store
 
 This guide provides detailed steps to deploy the Henna Store project, which is built using Django and hosted on Heroku. The project utilises Amazon S3 for static files, a PostgreSQL database provided by Code Institute for students, and Stripe for payment processing. The development environment is managed using GitPod and GitHub.

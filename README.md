@@ -43,7 +43,9 @@ Welcome to Henna, my Milestone Project 4 for the Level 5 Diploma in Full Stack W
 This project will demonstrate my full-stack web development skills by creating a seamless and user-friendly platform <br>
 for booking henna services and purchasing henna products.
 
-![alt text](documentation/images/readme/mock-up-p1.png)
+![mockup](documentation/images/readme/mock-up-p1.png)
+
+**Live Site:**  https://henna-9c8a6d07b833.herokuapp.com/
 
 ## Objective
 The main aim of Henna is to offer a seamless, intuitive, and engaging experience for clients looking to book henna services and buy henna products. The application uses modern web technologies to provide a dynamic solution that meets both personal and commercial needs.
@@ -258,26 +260,147 @@ The ERD includes the following relationships:
 
 - **Order - Delivery:** A user can choose Delivery Type.
 
-
 This ERD ensures that the database is well-structured to handle user management, and order processing, while also supporting Product promotions and delivery methods. The design is intended to maintain efficiency and scalability as the application grows.
 
 ---
 
-Testing
+## Testing
 The app's functionality was also tested by friends and family. Their feedback was invaluable in identifying any issues and making necessary improvements.
 
 For a detailed list of all testing steps taken, please refer to [TESTING.md](documentation/TESTING.md)
 
 ## Deployment
 
-[DEPLOYMENT.MD](documentation/DEPLOYMENT.md)
+- **App Deployment:** The Henna Store app was deployed on Heroku, a cloud platform that facilitates easy and scalable application hosting. For more information about Heroku, click [here](https://www.heroku.com/).
+
+- **Database Deployment:** The PostgreSQL database is used for data management, provided by Code Institute for students. More information about PostgreSQL can be found [here](https://www.postgresql.org/).
+
+- **Static Files Deployment:** The app utilises Amazon S3 for hosting static files, ensuring efficient file storage and delivery. Learn more about S3 [here](https://aws.amazon.com/s3/).
+
+- **Stripe Payments Integration:** The app incorporates Stripe for secure payment processing, including payment hooks and setup. Find out more about Stripe [here](https://stripe.com/docs).
+
 The deployment process comprised several steps to guarantee the successful and efficient deployment of the Henna Store app on Heroku. For a comprehensive guide, please refer to [DEPLOYMENT.MD](documentation/DEPLOYMENT.md) for all deployment details and instructions.
+
+---
 
 ### Planned Improvements
 
-### Tools and Technologies Used
+- **User Reviews and Ratings**  
+  **Description:** Enable users to rate and leave reviews for products, encouraging community interaction and feedback.  
+  **Reason for Delay:** Setting up a moderation system for user-submitted content is complex and requires time to implement correctly.
 
-## Credits 
+- **Order Tracking System**  
+  **Description:** Offer customers real-time tracking information for their orders after purchase.  
+  **Reason for Delay:** Integrating an effective tracking solution requires substantial backend adjustments and testing.
 
+- **Promotional Discounts Feature**  
+  **Description:** Introduce the option for users to apply discount codes during the checkout process.  
+  **Reason for Delay:** Building a flexible system to manage and validate various discount codes needs detailed planning and development.
+
+- **User Engagement Analytics**  
+  **Description:** Create reports on user activity and product performance to gain better insights and inform decisions.  
+  **Reason for Delay:** Developing advanced reporting features with customisable metrics involves significant coding and testing.
+
+
+While I aim to implement these enhancements to improve the Henna Store app, certain features may encounter delays due to their complexity and the time required for development. I am dedicated to continuously refining the app and will prioritise features based on user feedback and available resources.
+
+---
+
+## Tools and Technologies Used
+
+- **Backend:**
+  - **[Django](https://www.djangoproject.com/)**: The web framework managing server-side logic and interactions.
+  - **[Python](https://www.python.org/)**: The primary programming language for backend development.
+  - **[PostgreSQL](https://www.postgresql.org/)**: A robust relational database used for handling data storage and queries.
+
+- **Frontend:**
+  - **[HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)** / **[CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)**: Utilised for structuring and styling the user interface.
+  - **[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)**: Enhances the interactivity of the application.
+
+- **Payment Processing:**
+  - **[Stripe](https://stripe.com/)**: Used to handle secure card payments and payment intent functionalities.
+
+- **Deployment and Version Control:**
+  - **[Heroku](https://www.heroku.com/)**: For deploying and managing the application.
+  - **[GitHub](https://github.com/)**: For version control and collaboration.
+
+- **File Storage:**
+  - **[AWS S3](https://aws.amazon.com/s3/)**: Used to manage static files and media storage for reliable content delivery.
+
+---
+## Other Tools
+
+- **Image Resizing:** [Birme.net](https://www.birme.net/) was used to resize images.
+- **Wireframing:** [Balsamiq](https://balsamiq.com/) helped create wireframes for the application.
+- **Performance Testing:** [Lighthouse](https://developers.google.com/web/tools/lighthouse) was employed to evaluate and optimise the app’s performance.
+- **HTML & JavaScript Validation:** [HTMLHint](https://htmlhint.com/) and [JSHint](https://jshint.com/) were used to ensure clean and error-free code.
+- **Image Editing:** [GIMP](https://www.gimp.org/) was used for image editing and custom graphics creation.
+
+---  
+
+## Credits
+
+- **Background Images:** Images sourced from [PNGTree](https://www.pngtree.com/) and [Freepik](https://www.freepik.com/).
+- **Favicon:** Created using a [favicon generator](https://www.favicon-generator.org/).
+
+---
+
+#### Research Websites
+
+- **Django Documentation:** Learn more about Django at [Django Docs](https://docs.djangoproject.com/).
+- **PostgreSQL Documentation:** Explore PostgreSQL's capabilities at [PostgreSQL Docs](https://www.postgresql.org/docs/).
+- **Stripe Documentation:** Discover Stripe's functionalities at [Stripe Docs](https://stripe.com/docs).
+- **W3Schools:** Comprehensive tutorials and references on HTML, CSS, JavaScript, and more. Visit [W3Schools](https://www.w3schools.com/).
+- **MDN Web Docs:** Detailed documentation for web development technologies, including HTML, CSS, and JavaScript. Visit [MDN Web Docs](https://developer.mozilla.org/).
+- **Stack Overflow:** A community platform to find answers to coding questions and learn from others. Visit [Stack Overflow](https://stackoverflow.com/).
+- **GitHub Learning Lab:** Learn about version control and collaboration with GitHub tutorials. Visit [GitHub Learning Lab](https://lab.github.com/).
+
+---
 
 ## Acknowledgments
+
+- **Julia Konovalova:** Thank you for your invaluable guidance throughout this project.
+- **Jonathan Jacobson:** I appreciate your support and insights as my tutor.
+- **Code Institute Community:** For their help and support during development.
+- **Family and Friends:** For their encouragement and understanding during my learning journey.
+- **Online Coding Communities:** For providing platforms like Stack Overflow and Discord, where I could seek help and share knowledge.
+- **Tutorial Authors:** Appreciation for all the authors of tutorials and blogs that have guided me through various challenges.
+
+---
+
+## Reflection on Commit Practices
+
+I acknowledge that my commit messages may not consistently adhere to best practices. I strive to improve by using commit types such as:
+
+- **feat:** A new feature added.
+- **fix:** A bug fix has been implemented.
+- **chore:** Changes that do not relate to a fix or feature.
+- **refactor:** Code that has been restructured without adding features or fixing bugs.
+- **docs:** Updates to documentation files.
+
+---
+### Personal Improvements
+
+- **Improved Code Readability**  
+  **Description:** I plan to enhance the readability of my code by adopting consistent naming conventions, maintaining proper indentation, and using clear comments only when necessary. This will help others (and my future self) understand the code more easily.  
+  **Reason for Focus:** Clearer code is easier to maintain, debug, and extend, especially as projects grow in complexity.
+
+- **Better Git Commit Practices**  
+  **Description:** I aim to improve my commit messages by making them more descriptive, using a standard format, and ensuring each commit represents a single logical change.  
+  **Reason for Focus:** Well-structured commit history makes it easier to track changes and manage version control, especially when collaborating with others.
+
+- **Refactoring for Efficiency**  
+  **Description:** I intend to revisit my code regularly to refactor and optimise it for better performance and readability. This will include reducing redundancy and applying principles such as DRY (Don’t Repeat Yourself).  
+  **Reason for Focus:** Cleaner, more efficient code improves overall project quality and helps prevent bugs.
+
+- **Enhanced Debugging Skills**  
+  **Description:** I want to strengthen my ability to identify and resolve issues more systematically by using print statements, logging, and breakpoints effectively.  
+  **Reason for Focus:** Efficient debugging saves time and leads to quicker problem resolution.
+
+- **Regular Peer Reviews and Feedback**  
+  **Description:** I plan to actively seek out feedback from peers and mentors on my code, using it to identify areas for improvement and refine my programming style.  
+  **Reason for Focus:** Peer reviews provide valuable perspectives and help improve code quality and learning through collaboration.
+
+- **Consistent Documentation**  
+  **Description:** I will document my code more thoroughly, including README files, function descriptions, and project structure outlines to provide a clear guide for future development.  
+  **Reason for Focus:** Good documentation ensures that the purpose and functionality of the code are clear, making it easier for others to use and contribute to the project.
