@@ -248,19 +248,39 @@ The Entity-Relationship Diagram (ERD) for this project provides a clear represen
 The ERD includes the following relationships:
 
 
-- **User - Profile (One-to-One):** Each user can have one profile that stores personal details.
+## Models Overview
 
-- **User - Order (One-to-Many):** A user can place multiple orders, with each order potentially containing several items.
+### 1. User and Profile
+- **AuthUser**: Represents the users of the store with fields for authentication (username, password, email) and personal information (first/last name).
+- **ProfilesUserprofile**: Stores additional personal details for each user, linked to a single `AuthUser` (One-to-One relationship).
 
-- **Order - OrderItem (One-to-Many):** An order can contain several items, representing individual products included in that order.
+### 2. Orders
+- **CheckoutOrder**: Captures order details, including customer information (name, email), order totals, and selected delivery method. Each user can place multiple orders (One-to-Many relationship).
+- **CheckoutOrderitem**: Represents individual items within an order, including product details and quantity. Each order can contain several order items (One-to-Many relationship).
+  
+### 3. Products
+- **ProductsHennaproduct**: Defines the products available for purchase, with attributes such as SKU, name, description, and price. Each product can be linked to multiple order items (Many-to-One relationship).
+- **ProductsDiscount**: Represents promotional discounts that can be applied to multiple products, supporting flexible marketing strategies (Many-to-Many relationship).
 
-- **OrderItem - Product (Many-to-One):** Many order items can be linked to a single product, associating products with specific orders.
+### 4. Delivery
+- **CheckoutDelivery**: Manages various delivery options available to users. Each order can specify a delivery type, allowing for user choice (One-to-Many relationship).
 
-- **Products - Discount (Many to Many):** Many products can have many promotions.
+### 5. Authentication and Permissions
+- **AuthGroup**: Defines user groups for managing permissions.
+- **AuthPermission**: Contains permissions linked to specific actions and content types, allowing for fine-grained access control.
 
-- **Order - Delivery:** A user can choose Delivery Type.
+### 6. Social Accounts
+- **SocialaccountSocialaccount**: Manages social media account links for users, supporting OAuth authentication methods.
 
-This ERD ensures that the database is well-structured to handle user management, and order processing, while also supporting Product promotions and delivery methods. The design is intended to maintain efficiency and scalability as the application grows.
+## Relationships
+- **User - Profile (One-to-One)**: Each user has one associated profile.
+- **User - Order (One-to-Many)**: A user can place multiple orders.
+- **Order - OrderItem (One-to-Many)**: Each order can include several items.
+- **OrderItem - Product (Many-to-One)**: Many order items can link back to a single product.
+- **Products - Discount (Many-to-Many)**: Many products can have multiple discounts applied.
+- **Order - Delivery (One-to-Many)**: Each order can specify one delivery method from various available options.
+
+Henna Store data schema is designed to ensure efficient user management and order processing while supporting product promotions and diverse delivery methods. It is structured for scalability and flexibility as the Henna Store application grows, providing a solid foundation for further development and features.
 
 ---
 
