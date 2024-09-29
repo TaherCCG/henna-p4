@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from profiles.forms import UserProfileForm
 from .forms import OrderForm, DeliveryForm
@@ -226,6 +228,13 @@ def update_delivery(request, delivery_id):
     })
 
 
+# Helper function to check if the user is a superuser
+def superuser_required(user):
+    return user.is_superuser
+
+
+@login_required
+@user_passes_test(superuser_required)
 def add_delivery(request):
     """
     Add a new delivery method through the delivery form.
@@ -248,6 +257,8 @@ def add_delivery(request):
     return render(request, 'checkout/delivery_form.html', context)
 
 
+@login_required
+@user_passes_test(superuser_required)
 def edit_delivery(request, delivery_id):
     """
     Handles form submission for updating delivery methods.
@@ -271,6 +282,8 @@ def edit_delivery(request, delivery_id):
     return render(request, 'checkout/delivery_form.html', context)
 
 
+@login_required
+@user_passes_test(superuser_required)
 @require_POST
 def delete_delivery(request, delivery_id):
     """
@@ -286,6 +299,8 @@ def delete_delivery(request, delivery_id):
     return HttpResponse(status=405)
 
 
+@login_required
+@user_passes_test(superuser_required)
 def list_deliveries(request):
     """
     List all available delivery methods.

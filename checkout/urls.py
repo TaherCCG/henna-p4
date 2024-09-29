@@ -10,6 +10,6 @@ urlpatterns = [
     path('wh/', webhook, name='webhook'),
     path('delivery/add/', views.add_delivery, name='add_delivery'),
     path('delivery/edit/<int:delivery_id>/', views.edit_delivery, name='edit_delivery'),
-    path('delivery/delete/<int:delivery_id>/', views.delete_delivery, name='delete_delivery'),
+    path('delivery/<int:delivery_id>/delete/', views.delete_delivery, name='delete_delivery'),
     path('delivery/', views.list_deliveries, name='list_deliveries'),
 ]

@@ -128,6 +128,17 @@ class DeliveryForm(forms.ModelForm):
             raise ValidationError(f"A delivery method with the name '{name}' already exists.")
         
         return name
+
+    def clean_cost(self):
+        """
+        Ensure that the cost is not below £0.
+        """
+        cost = self.cleaned_data.get('cost')
+        if cost is not None and cost < 0:
+            raise ValidationError("Delivery cost cannot be less than £0.")
+        return cost
+
+
 # References:
 # Django Working with Forms: https://docs.djangoproject.com/en/5.1/topics/forms/#working-with-forms
 # Accept a payment using Stripe Elements: https://docs.stripe.com/payments/accept-a-payment-charges#set-up-stripe-elements
