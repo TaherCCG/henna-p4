@@ -74,6 +74,17 @@
             <div class="col-12 col-lg-4 py-1 py-lg-0">
                 <ul
                     class="list-inline text-center text-lg-end mb-0 d-flex justify-content-center justify-content-lg-end">
+                     <!-- Contact Us Link -->
+                    <li class="list-inline-item me-3">
+                        <a class="text-black nav-link" href="{% url 'contact' %}">
+                            <div class="text-center">
+                                <span class="icon">
+                                    <i class="fa-solid fa-envelope fa-lg"></i>
+                                </span>
+                                <p class="mb-0">Contact Us</p>
+                            </div>
+                        </a>
+                    </li>
                     <!-- My Account Dropdown -->
                     <li class="list-inline-item dropdown me-3">
                         <a class="text-black nav-link dropdown-toggle" href="#" id="user-options"
@@ -170,24 +181,20 @@
     <!-- Footer -->
     <footer class="footer bg-secondary text-light py-4">
         <div class="container text-center">
-            <p class="mb-2">© 2024 Henna Store. All rights reserved.</p>
             <div class="mb-3">
-                <a href="https://github.com/TaherCCG" class="text-light me-3" aria-label="GitHub" target="_blank">
-                    <i class="fab fa-github icon"></i> GitHub
+                <a href="https://github.com/TaherCCG" class="text-light me-2 icon" aria-label="GitHub" target="_blank">
+                    <i class="fab fa-github"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/taher-m" class="text-light me-3" aria-label="LinkedIn" target="_blank">
-                    <i class="fab fa-linkedin icon"></i> LinkedIn
+                <a href="https://www.linkedin.com/in/taher-m" class="text-light me-2 icon" aria-label="LinkedIn" target="_blank">
+                    <i class="fab fa-linkedin"></i>
                 </a>
-                <a href="/contact" class="text-light" aria-label="Contact Us">
-                    <i class="fas fa-envelope icon"></i> Contact Us
+                <a href="{% url 'contact' %}" class="text-light icon" aria-label="Contact Us">
+                    <i class="fas fa-envelope"></i>
                 </a>
             </div>
-            <small>
-                <a href="/privacy" class="text-light" aria-label="Privacy Policy">Privacy Policy</a> |
-                <a href="/terms" class="text-light" aria-label="Terms of Service">Terms of Service</a>
-            </small>
-        </div>
+            <p class="mb-2 text-light">© 2024 Henna Store. All rights reserved.</p>
     </footer>
+    
 </body>
 
 <!-- Modal -->
