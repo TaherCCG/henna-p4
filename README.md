@@ -28,12 +28,22 @@
 6. [UML Use Case Diagram](#uml-use-case-diagram)
 7. [Database](#database)
     - [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
+8. [Testing](#testing)
+9. [Deployment](#deployment)
+10. [Planned Improvements](#planned-improvements)
+11. [Tools and Technologies Used](#tools-and-technologies-used)
+12. [Credits](#credits)
+13. [Acknowledgments](#acknowledgments)
 
 ---
 
-This TOC links to the respective sections in the document, making it easy to navigate.
+
 ## Introduction
-Welcome to Henna, my Milestone Project 4 for the Level 5 Diploma in Full Stack Web Application Development! This project will demonstrate my full-stack web development skills by creating a seamless and user-friendly platform for booking henna services and purchasing henna products.
+Welcome to Henna, my Milestone Project 4 for the Level 5 Diploma in Full Stack Web Application Development! <br>
+This project will demonstrate my full-stack web development skills by creating a seamless and user-friendly platform <br>
+for booking henna services and purchasing henna products.
+
+![alt text](documentation/images/readme/mock-up-p1.png)
 
 ## Objective
 The main aim of Henna is to offer a seamless, intuitive, and engaging experience for clients looking to book henna services and buy henna products. The application uses modern web technologies to provide a dynamic solution that meets both personal and commercial needs.
@@ -41,8 +51,6 @@ The main aim of Henna is to offer a seamless, intuitive, and engaging experience
 ## Key Features
 
 - **User Management:** Allows users to register, log in, and manage their accounts easily.
-
-- **Service Booking:** Enables users to browse, select, and book henna services with real-time availability.
 
 - **Product Purchasing:** Offers a detailed catalogue of henna products, with features to add items to a cart and proceed through a secure checkout process.
 
@@ -53,15 +61,33 @@ The main aim of Henna is to offer a seamless, intuitive, and engaging experience
 - **Admin Panel:** Provides administrators with tools to manage service listings, product inventories, and user accounts.
 
 ### Navigation
+![navbar](documentation/images/readme/navbar.png)
+
+![Small Nav](documentation/images/readme/sm-navbar.png)
+
+![nav1](documentation/images/readme/nav1.png)
+
+![nav3](documentation/images/readme/nav2.png)
 
 ### Home Page
 
+![Home Page ](documentation/images/readme/hompage.png)
+
 ### Profile Page
+
+![profile page](documentation/images/readme/profilepage.png)
 
 ### Admin Panel Feature
 
-### Booking Page
+![admin](documentation/images/readme/admin.png) 
 
+![admin4](documentation/images/readme/admin4.png)
+
+![admin2](documentation/images/readme/admin2.png)
+
+![admin3](documentation/images/readme/admin3.png)
+
+ 
 ## UX/UI
 ### User Stories
 
@@ -215,7 +241,7 @@ For development, I utilised the SQLite3 database, as it is the default option fo
 
 The Entity-Relationship Diagram (ERD) for this project provides a clear representation of the database structure. It shows how key entities such as users, roles, profiles, services, products, orders, bookings, and reviews are related to each other. The diagram helps define how data will be organised and managed within the application, ensuring smooth operation and scalability.
 
-![henna-erd](documentation/images/uml/henna-erd.jpeg)
+![henna-erd](documentation/images/uml/p2-1.png)
 
 The ERD includes the following relationships:
 
@@ -228,16 +254,30 @@ The ERD includes the following relationships:
 
 - **OrderItem - Product (Many-to-One):** Many order items can be linked to a single product, associating products with specific orders.
 
-- **Review - User (Many-to-One):** A user can write several reviews, offering feedback on different services or products.
+- **Products - Discount (Many to Many):** Many products can have many promotions.
 
-- **Review - Product (Many-to-One):** Several reviews can refer to a single product.
-
-- **Products - Promotions (Many to Many):** Many products can have many promotions.
-
-- **Order - Shipping:** A user can choose Delivery Type.
+- **Order - Delivery:** A user can choose Delivery Type.
 
 
-This ERD ensures that the database is well-structured to handle user management, order processing, and reviews, while also supporting Product promotions and delivery methods. The design is intended to maintain efficiency and scalability as the application grows.
+This ERD ensures that the database is well-structured to handle user management, and order processing, while also supporting Product promotions and delivery methods. The design is intended to maintain efficiency and scalability as the application grows.
 
 ---
 
+Testing
+The app's functionality was also tested by friends and family. Their feedback was invaluable in identifying any issues and making necessary improvements.
+
+For a detailed list of all testing steps taken, please refer to [TESTING.md](documentation/TESTING.md)
+
+## Deployment
+
+[DEPLOYMENT.MD](documentation/DEPLOYMENT.md)
+The deployment process comprised several steps to guarantee the successful and efficient deployment of the Henna Store app on Heroku. For a comprehensive guide, please refer to [DEPLOYMENT.MD](documentation/DEPLOYMENT.md) for all deployment details and instructions.
+
+### Planned Improvements
+
+### Tools and Technologies Used
+
+## Credits 
+
+
+## Acknowledgments
