@@ -115,11 +115,14 @@ WSGI_APPLICATION = 'henna_store.wsgi.application'
 # Allauth settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+if 'DEVELOPMENT' in os.environ:
+    ACCOUNT_EMAIL_VERIFICATION = 'none'
+else:
+    ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 # Database settings based on environment
 if 'DATABASE_URL' in os.environ:
