@@ -362,6 +362,7 @@ While I aim to implement these enhancements to improve the Henna Store app, cert
 - **Julia Konovalova:** Thank you for your invaluable guidance throughout this project.
 - **Jonathan Jacobson:** I appreciate your support and insights as my tutor.
 - **Code Institute Community:** For their help and support during development.
+- **Boutique Ado and Hello Django:** I found these walkthrough projects on the Code Institute learning platform to be immensely helpful in enhancing my understanding of Django.
 - **Family and Friends:** For their encouragement and understanding during my learning journey.
 - **Online Coding Communities:** For providing platforms like Stack Overflow and Discord, where I could seek help and share knowledge.
 - **Tutorial Authors:** Appreciation for all the authors of tutorials and blogs that have guided me through various challenges.
