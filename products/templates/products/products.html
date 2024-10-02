@@ -26,8 +26,8 @@
                     </p>
                 {% endif %}
                 {% for c in current_categories %}
-                    <a class="category-badge" href="{% url 'products' %}?category={{ c.name }}">
-                        <span>{{ c.friendly_name }}</span>
+                    <a class="category-badge" href="{% url 'products' %}?category={{ c.friendly_name }}">
+                        <span>{{ c.name }}</span>
                     </a>
                 {% endfor %}
             </div>
@@ -86,7 +86,7 @@
                                                 </div>
                                                 {% if product.category %}
                                                     <p class="small mt-1 mb-0">
-                                                        <i class="fas fa-tag me-1"></i>{{ product.category.friendly_name }}
+                                                        <i class="fas fa-tag me-1"></i>{{ product.category.name }}
                                                     </p>
                                                 {% endif %}
                                                 {% if product.rating %}
