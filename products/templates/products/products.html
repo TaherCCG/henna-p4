@@ -68,7 +68,7 @@
                                     {% if product.image %}
                                         <img class="card-img-top img-fluid product-img" src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
                                     {% else %}
-                                        <img class="card-img-top img-fluid product-img" src="{% static 'noimage.png' %}" alt="{{ product.name }}">
+                                        <img class="card-img-top img-fluid product-img" src="{% static 'images/noimage.png' %}" alt="{{ product.name }}">
                                     {% endif %}
                                     <div class="card-body product-info pb-0">
                                         <p class="product-title mb-2">{{ product.name }}</p>

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/checkout_success.css' %}">
+    <link rel="stylesheet" href="{% static 'checkout/css/checkout_success.css' %}">
 {% endblock %}
 
 {% block title %}Checkout Success{% endblock %}
@@ -102,19 +102,19 @@
         <div class="row mt-4">
             <div class="col-12 d-flex justify-content-center">
                 {% if from_profile %}
-                    <a href="{% url 'profile' %}" class="btn btn-black rounded-0 my-2 mx-2">
+                    <a href="{% url 'profile' %}" class="btn keep-shopping-btn rounded-0 my-2 mx-2">
                         <span class="icon mr-2">
-                            <i class="fas fa-arrow-left"></i>
+                            <i class="fas fa-arrow-left text-light"></i>
                         </span>
-                        <span class="text-uppercase">Back to Profile</span>
+                        <span class="text-uppercase text-light">Back to Profile</span>
                     </a>
                 {% endif %}
                 
-                <a href="{% url 'products' %}?category=henna_designs_stencils,henna_kits" class="btn btn-black rounded-0 my-2 mx-2">
+                <a href="{% url 'products' %}" class="btn keep-shopping-btn rounded-0 my-2 mx-2">
                     <span class="icon mr-2">
-                        <i class="fas fa-gifts"></i>
+                        <i class="fas fa-gifts text-light"></i>
                     </span>
-                    <span class="text-uppercase">Now check out the latest deals!</span>
+                    <span class="text-uppercase text-light">Now check out the latest deals!</span>
                 </a>
             </div>
         </div>
